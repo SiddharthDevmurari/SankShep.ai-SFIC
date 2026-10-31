@@ -481,7 +481,7 @@ Supabase is configured by the two `VITE_SUPABASE_*` variables in step 3.
 
 **Team TM003665** · Seva First Innovation Challenge (SFIC)
 
-Siddharth Devmurari · Vraj Patel · Suhani Jain · Darshil Dhanani · Harshit Vadher · Harsh Thakkar
+Siddharth Devmurari · Suhani Jain · Harshit Vadher · Vraj Patel · Kalindi Purohit · Kalee Hindocha
 
 ---
 

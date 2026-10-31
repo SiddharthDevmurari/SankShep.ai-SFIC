@@ -16,9 +16,11 @@ interface Member {
   name: string
   github: string
   linkedin: string
-  email: string
+  /** Left out when the member hasn't shared one; the card then shows GitHub and LinkedIn only. */
+  email?: string
 }
 
+// SFIC team TM003665, in the team's own order.
 const TEAM: Member[] = [
   {
     name: 'Siddharth Devmurari',
@@ -27,22 +29,10 @@ const TEAM: Member[] = [
     email: 'siddharthdevmurari07@gmail.com',
   },
   {
-    name: 'Vraj Patel',
-    github: 'https://github.com/vrajp1010-eng',
-    linkedin: 'https://www.linkedin.com/in/vraj-patel-07a582377',
-    email: 'vrajp4752@gmail.com',
-  },
-  {
     name: 'Suhani Jain',
     github: 'https://github.com/Suhani2612',
     linkedin: 'https://www.linkedin.com/in/suhani-jain-3938a3305',
     email: 'suhanijain26122006@gmail.com',
-  },
-  {
-    name: 'Darshil Dhanani',
-    github: 'https://github.com/DarshilDhanani04',
-    linkedin: 'https://www.linkedin.com/in/darshil-dhanani-444aa5319',
-    email: 'darshildhanani04@gmail.com',
   },
   {
     name: 'Harshit Vadher',
@@ -51,10 +41,22 @@ const TEAM: Member[] = [
     email: 'harshitsinhvadher@gmail.com',
   },
   {
-    name: 'Harsh Thakkar',
-    github: 'https://github.com/thakkarharsh1572007-sudo',
-    linkedin: 'https://www.linkedin.com/in/thakkar-harsh-18010b375',
-    email: 'thakkarharsh1572007@gmail.com',
+    name: 'Vraj Patel',
+    github: 'https://github.com/vrajp1010-eng',
+    linkedin: 'https://www.linkedin.com/in/vraj-patel-07a582377',
+    email: 'vrajp4752@gmail.com',
+  },
+  {
+    name: 'Kalindi Purohit',
+    github: 'https://github.com/kalindi456',
+    linkedin: 'https://www.linkedin.com/in/kalindi-purohit-1b3618319',
+    email: 'kalindipareek.kp@gmail.com',
+  },
+  {
+    name: 'Kalee Hindocha',
+    github: 'https://github.com/KaleeHindocha',
+    linkedin: 'https://www.linkedin.com/in/kalee-hindocha-65324b324',
+    email: 'hindochakali26@gmail.com',
   },
 ]
 
@@ -137,7 +139,7 @@ export default function ContactPage() {
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
             {TEAM.map((m, i) => (
               <motion.li
-                key={m.email}
+                key={m.name}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
@@ -192,6 +194,7 @@ function MemberCard({ member, index }: { member: Member; index: number }) {
   const t = useCopy({ en, hi })
 
   const copyEmail = async () => {
+    if (!member.email) return
     try {
       await navigator.clipboard.writeText(member.email)
       setCopied(true)
@@ -233,28 +236,32 @@ function MemberCard({ member, index }: { member: Member; index: number }) {
           </span>
         </a>
 
-        <div className="flex items-center gap-1">
-          <a href={`mailto:${member.email}`} className={`${ROW} min-w-0 flex-1`} aria-label={t.emailName(member.name)}>
-            <span className={ICON_TILE}><Mail className="h-[18px] w-[18px]" /></span>
-            <span className="min-w-0">
-              <span className="block text-[12px] text-ink-mute">{t.email}</span>
-              {/* Wraps rather than truncating (an address has to be readable in full), preferably right after the @. */}
-              <span className="block text-[14px] font-medium text-ink [overflow-wrap:anywhere]">
-                {member.email.split('@')[0]}@<wbr />{member.email.split('@')[1]}
-              </span>
-            </span>
-          </a>
-          <button
-            type="button"
-            onClick={copyEmail}
-            aria-label={copied ? t.copiedLabel : t.copyLabel(member.name)}
-            title={copied ? t.copiedTitle : t.copyTitle}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-ink-mute transition-colors hover:bg-paper-deep hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/30"
-          >
-            {copied ? <Check className="h-4 w-4 text-ink" /> : <Copy className="h-4 w-4" />}
-          </button>
-        </div>
-        <p role="status" className="sr-only">{copied ? t.copiedStatus(member.email) : ''}</p>
+        {member.email && (
+          <>
+            <div className="flex items-center gap-1">
+              <a href={`mailto:${member.email}`} className={`${ROW} min-w-0 flex-1`} aria-label={t.emailName(member.name)}>
+                <span className={ICON_TILE}><Mail className="h-[18px] w-[18px]" /></span>
+                <span className="min-w-0">
+                  <span className="block text-[12px] text-ink-mute">{t.email}</span>
+                  {/* Wraps rather than truncating (an address has to be readable in full), preferably right after the @. */}
+                  <span className="block text-[14px] font-medium text-ink [overflow-wrap:anywhere]">
+                    {member.email.split('@')[0]}@<wbr />{member.email.split('@')[1]}
+                  </span>
+                </span>
+              </a>
+              <button
+                type="button"
+                onClick={copyEmail}
+                aria-label={copied ? t.copiedLabel : t.copyLabel(member.name)}
+                title={copied ? t.copiedTitle : t.copyTitle}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-ink-mute transition-colors hover:bg-paper-deep hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/30"
+              >
+                {copied ? <Check className="h-4 w-4 text-ink" /> : <Copy className="h-4 w-4" />}
+              </button>
+            </div>
+            <p role="status" className="sr-only">{copied ? t.copiedStatus(member.email) : ''}</p>
+          </>
+        )}
       </div>
     </article>
   )

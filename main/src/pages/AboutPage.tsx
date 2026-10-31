@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import { ArrowRight, GITHUB_URL, GithubIcon, SitePage } from '../components/site/SiteChrome'
 import { useCopy } from '../i18n'
 
-const TEAM = ['Siddharth Devmurari', 'Vraj Patel', 'Suhani Jain', 'Darshil Dhanani', 'Harshit Vadher', 'Harsh Thakkar']
+const TEAM = ['Siddharth Devmurari', 'Suhani Jain', 'Harshit Vadher', 'Vraj Patel', 'Kalindi Purohit', 'Kalee Hindocha']
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
