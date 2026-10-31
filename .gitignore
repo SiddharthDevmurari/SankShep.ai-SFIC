@@ -70,3 +70,4 @@ photos/*
 # Local tool output (browser test logs, Vercel link)
 .playwright-mcp/
 .vercel
+.env*
