@@ -288,7 +288,7 @@ export function SiteFooter() {
       </div>
       <div className="mx-auto max-w-[1200px] px-5 py-8 sm:px-8">
         <div className="flex flex-col items-start justify-between gap-4 border-t border-hair pt-6 sm:flex-row sm:items-center">
-          <p className="text-[13px] text-ink-soft">© 2026 Sankshep.ai · Neural Ninjas VGEC</p>
+          <p className="text-[13px] text-ink-soft">© 2026 Sankshep.ai · SFIC · Official Team Code: TM003665</p>
           <nav aria-label={t.footerLabel} className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {FOOTER_LINKS.map((l, i) =>
               l.external ? (

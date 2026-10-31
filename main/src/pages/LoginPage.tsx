@@ -238,7 +238,7 @@ export default function LoginPage() {
               </ol>
             </div>
 
-            <p className="hidden text-[12.5px] text-ink-mute md:block">© 2026 Sankshep.ai · NTRO SIH</p>
+            <p className="hidden text-[12.5px] text-ink-mute md:block">© 2026 Sankshep.ai · SFIC · Official Team Code: TM003665</p>
           </aside>
 
           {/* Form side */}

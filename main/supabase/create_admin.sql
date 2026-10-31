@@ -10,7 +10,7 @@
 
 do $$
 declare
-  admin_password constant text := 'admin';
+  admin_password constant text := 'CHANGE_ME';
   admin_id uuid;
 begin
   if admin_password = 'CHANGE_ME' or length(admin_password) < 5 then

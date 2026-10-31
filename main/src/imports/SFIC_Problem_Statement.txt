@@ -1,0 +1,36 @@
+Problem Statement Title
+Sankshep.ai: Turning Government and Public-Service Information into Citizen-Ready Communication, in Every Format and Language
+
+Challenge
+Seva First Innovation Challenge (SFIC) · Track 2: Bring Your Problem Statement (Open Innovation) · Official Team Code: TM003665
+
+Target Users / Stakeholders
+Primary users: communication and IEC officers in government departments and district administrations; health workers and PHC staff who pass on health advisories and scheme information; panchayat and municipal staff who share notices and announcements; NGOs and community organisations that explain government schemes; disaster management and cyber-safety teams that issue public advisories.
+End beneficiaries: citizens, especially those who do not read English or find official language hard to follow.
+Secondary stakeholders: departments that handle confidential documents and cannot send them to outside AI services.
+
+Discipline / Technology Domain
+Generative AI / Natural Language Processing (LLMs), multilingual AI, on-device (edge) AI, Web Technologies, GovTech.
+
+Challenge Overview with Context
+Government departments, health systems and social organisations produce a constant stream of important information: scheme guidelines, health advisories, circulars, policy documents, safety alerts and reports. This information only creates value when it reaches the people it is meant for, in a form they can understand and act on.
+Today that last step is slow and manual. The same circular has to be rewritten by hand into a short summary for officials, a simple explanation for citizens, a social media post, a presentation for a review meeting and a script for an awareness video. Each version needs writing skill, time and often translation into regional languages. Small teams, district offices and NGOs rarely have dedicated communication staff, so information often goes out late, in English only, or in dense official language that ordinary citizens cannot follow.
+Existing AI writing tools help a little, but they produce one output at a time, need technical skill to prompt well, and send documents to outside servers, which is not acceptable for confidential or sensitive government material.
+
+Exact Problem Definition
+Root cause: turning one source document into many audience-ready formats and languages is entirely manual, depends on scarce writing and translation skills, and has no tool that is simple, multi-format and safe for sensitive documents.
+Pain points:
+1. Repetitive manual effort: the same content is rewritten many times for different audiences and platforms.
+2. Language barrier: most official content is written in English or formal language, while citizens need it in Hindi and regional languages and in plain words.
+3. Delays: time-critical advisories (health, disaster, cyber safety) lose value when communication is slow.
+4. Inconsistency: different staff rewrite the same facts differently, so messages vary or contain errors.
+5. Skill gaps: small offices and NGOs lack trained communication and design staff.
+6. Data privacy: confidential documents cannot be uploaded to public AI tools, so those teams get no AI help at all.
+
+Expected Outcomes / Deliverables
+A working web prototype, Sankshep.ai, where a user brings any source (PDF, Word, text, CSV or JSON files, images and scanned pages, a web link or pasted text), picks one or more of 10 formats (Executive Summary, Advisory, Simplified Explanation, PPT Presentation, Video script and storyboard, Infographic content, Blog Post, LinkedIn Post, Twitter/X Post, Language Translation) or describes a custom format, sets the audience and tone, and gets every draft at once. Drafts can be refined in plain words, slide decks download as PowerPoint, and text can be translated into Hindi, Gujarati, Marathi, Bengali, Telugu and Tamil. Private mode runs the AI model entirely on the user's own computer, so confidential documents never leave the device. Sign-in, a history of past work and an admin panel support accounts and oversight.
+
+Potential Societal and Economic Impact
+For citizens: government schemes, health advisories and safety alerts reach people faster, in their own language and in simple words.
+For government and social-sector teams: hours of rewriting become minutes, every format comes from the same verified source, small offices and NGOs can produce professional material, and sensitive documents can use AI safely through Private mode.
+Economic: lower content-production and translation costs, staff time freed for field work, and free or low-cost AI models on ordinary hardware, so it is affordable at district and panchayat level.

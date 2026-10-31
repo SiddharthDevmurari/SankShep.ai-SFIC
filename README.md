@@ -8,14 +8,11 @@
 
 A generative AI workspace that turns a single report, article or advisory into executive summaries, social posts, slide decks, video scripts and translations, all drafted in parallel, then refined in plain language. For documents that can't leave the building, **Private mode** does the whole job on your own computer.
 
-*Smart India Hackathon 2026 · Problem statement: Gen AI Platform for Automated Content Transformation*
+*Seva First Innovation Challenge (SFIC) · Track 2: Open Innovation · Official Team Code: TM003665*
 
 **Live: [sankshep-ai.vercel.app](https://sankshep-ai.vercel.app)**
 
-<a href="NeuralNinjasVgec-132743.pdf"><img src="photos/buttons/idea-presentation.svg" width="400" alt="Idea Presentation (PDF)" /></a>
 <a href="Sankshep-System-Architecture.pdf"><img src="photos/buttons/system-architecture.svg" width="400" alt="System Architecture (PDF)" /></a>
-<br />
-<a href="https://youtu.be/u4sPNRXTmRE"><img src="photos/buttons/demo-video.svg" width="400" alt="Demo Video (YouTube)" /></a>
 <a href="https://sankshep-ai.vercel.app"><img src="photos/buttons/live-app.svg" width="400" alt="Live App" /></a>
 
 [![React](https://img.shields.io/badge/React-19-0f100f?logo=react&logoColor=d4ed64)](https://react.dev)
@@ -34,19 +31,15 @@ A generative AI workspace that turns a single report, article or advisory into e
 ## Project documents
 
 > [!IMPORTANT]
-> **Technical presentation: [NeuralNinjasVgec-132743.pdf](NeuralNinjasVgec-132743.pdf)** (6 slides): idea, technical approach, prototype, feasibility, impact and references.
->
 > **System Architecture document: [Sankshep-System-Architecture.pdf](Sankshep-System-Architecture.pdf)** (2 pages). It shows the full pipeline, from sign-in to History, and the eight architectural layers. Click the link to open it in GitHub's PDF viewer.
 
-Submission deliverables for SIH 2026 · Problem statement **SIH26154** (NTRO) · Team **NeuralNinjasVgec**:
+Seva First Innovation Challenge (SFIC) · Track 2: Open Innovation · Official Team Code **TM003665**:
 
 | Deliverable | Where to find it |
 |---|---|
 | Source code | This repository (the app is in [`main/`](main)) |
 | README with setup instructions | This file: see [Quick start](#quick-start) |
-| **Technical presentation** (SIH idea submission, 6 slides) | **[NeuralNinjasVgec-132743.pdf](NeuralNinjasVgec-132743.pdf)** |
 | **Architecture document** | **[Sankshep-System-Architecture.pdf](Sankshep-System-Architecture.pdf)**; text version in [`architecture_slide.md`](architecture_slide.md) |
-| Demo video | [youtu.be/u4sPNRXTmRE](https://youtu.be/u4sPNRXTmRE) |
 | Live prototype | [sankshep-ai.vercel.app](https://sankshep-ai.vercel.app) (use **Continue with the demo account** on the sign-in page) |
 
 ## What it does
@@ -349,7 +342,7 @@ flowchart TB
 | `/` | Landing page | Public |
 | `/features` | The main features, with interactive previews | Public |
 | `/how-it-works` | Animated walkthrough of the pipeline and data flow | Public |
-| `/about` | The team and the SIH problem statement | Public |
+| `/about` | The team and the SFIC problem statement | Public |
 | `/contact` | GitHub, LinkedIn and email for each team member | Public |
 | `/privacy-policy`, `/terms-and-conditions` | Legal pages | Public |
 | `/login` | Sign in / sign up | Public |
@@ -439,7 +432,7 @@ Users can delete their own account from the account menu in the workspace; the a
 3. Under **Environment Variables**, add `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `GROQ_API_KEYS`, `GEMINI_API_KEYS` and `OPENROUTER_API_KEYS` (same values as your `.env.local`), then click **Deploy**.
 4. From then on, every push to `main` deploys automatically. To change keys later: **Project → Settings → Environment Variables**, then **Deployments → ⋯ → Redeploy**.
 
-Supabase needs no configuration.
+Supabase is configured by the two `VITE_SUPABASE_*` variables in step 3.
 
 ## Known limitations
 
@@ -455,12 +448,12 @@ Supabase needs no configuration.
 
 ## Team
 
-**Neural Ninjas VGEC**
+**Team TM003665** · Seva First Innovation Challenge (SFIC)
 
 Siddharth Devmurari · Vraj Patel · Suhani Jain · Darshil Dhanani · Harshit Vadher · Harsh Thakkar
 
 ---
 
 <div align="center">
-<sub>Built for Smart India Hackathon 2026 · <a href="main/src/pages/legal/TermsPage.tsx">Terms</a> · <a href="main/src/pages/legal/PrivacyPolicyPage.tsx">Privacy</a></sub>
+<sub>Built for the Seva First Innovation Challenge (SFIC) · Official Team Code: TM003665 · <a href="main/src/pages/legal/TermsPage.tsx">Terms</a> · <a href="main/src/pages/legal/PrivacyPolicyPage.tsx">Privacy</a></sub>
 </div>

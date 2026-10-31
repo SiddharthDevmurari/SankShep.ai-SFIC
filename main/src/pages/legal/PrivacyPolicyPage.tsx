@@ -15,7 +15,7 @@ const SECTIONS_EN: LegalSection[] = [
     body: (
       <>
         <p>
-          Sankshep.ai is a student project built by the team <strong>Neural Ninjas VGEC</strong> for the Smart India Hackathon.
+          Sankshep.ai is a student project built for the <strong>Seva First Innovation Challenge (SFIC)</strong> by the team with Official Team Code <strong>TM003665</strong>.
           It is a prototype, not a commercial service, and it is offered free of charge.
         </p>
         <p>
@@ -186,7 +186,7 @@ const SECTIONS_HI: LegalSection[] = [
     body: (
       <>
         <p>
-          Sankshep.ai एक छात्र प्रोजेक्ट है, जिसे टीम <strong>Neural Ninjas VGEC</strong> ने स्मार्ट इंडिया हैकाथॉन के लिए बनाया है। यह
+          Sankshep.ai एक छात्र प्रोजेक्ट है, जिसे आधिकारिक टीम कोड <strong>TM003665</strong> वाली टीम ने <strong>सेवा फ़र्स्ट इनोवेशन चैलेंज (SFIC)</strong> के लिए बनाया है। यह
           एक प्रोटोटाइप है, कोई व्यावसायिक सेवा नहीं, और यह मुफ़्त दिया जाता है।
         </p>
         <p>

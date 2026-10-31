@@ -13,9 +13,9 @@ const Strong = ({ children }: { children: ReactNode }) => <strong className="fon
 // Team names stay in Latin script in both languages: they're real people's names, spelled as they write them.
 const en = {
   eyebrow: 'About',
-  intro: <>We built Sankshep.ai for the <Strong>Smart India Hackathon</Strong>: a workspace that turns one source document into the formats people actually need to send.</>,
-  problemLabel: 'SIH problem statement',
-  problem: '“Gen AI Platform for Automated Content Transformation”',
+  intro: <>We are building Sankshep.ai for the <Strong>Seva First Innovation Challenge (SFIC)</Strong>, Track 2: Open Innovation. It is a workspace that turns one source document into the formats and languages people actually need. Official Team Code: <Strong>TM003665</Strong>.</>,
+  problemLabel: 'SFIC problem statement',
+  problem: '“Turning government and public-service information into citizen-ready communication, in every format and language”',
   why: [
     'Organisations spend hours turning news, reports, advisories, policy documents and research into briefs, posts, decks and scripts. Each one means reading the source again, working out what the audience needs, and writing it from scratch.',
     'Sankshep.ai does that step for them. Upload a document, pick the formats and the audience, and every draft is written in parallel from the same source, ready to check and edit.',
@@ -29,9 +29,9 @@ const en = {
 
 const hi: typeof en = {
   eyebrow: 'हमारे बारे में',
-  intro: <>हमने Sankshep.ai को <Strong>स्मार्ट इंडिया हैकाथॉन</Strong> के लिए बनाया है: एक ऐसा वर्कस्पेस जो एक स्रोत दस्तावेज़ को उन फ़ॉर्मेट में बदल देता है जिन्हें लोग सच में भेजते हैं।</>,
-  problemLabel: 'SIH समस्या विवरण',
-  problem: '“स्वचालित कंटेंट रूपांतरण के लिए Gen AI प्लेटफ़ॉर्म”',
+  intro: <>हम Sankshep.ai को <Strong>सेवा फ़र्स्ट इनोवेशन चैलेंज (SFIC)</Strong> के ट्रैक 2: ओपन इनोवेशन के लिए बना रहे हैं। यह एक ऐसा वर्कस्पेस है जो एक स्रोत दस्तावेज़ को उन फ़ॉर्मेट और भाषाओं में बदल देता है जिनकी लोगों को सच में ज़रूरत होती है। आधिकारिक टीम कोड: <Strong>TM003665</Strong>।</>,
+  problemLabel: 'SFIC समस्या विवरण',
+  problem: '“सरकारी और जन-सेवा की जानकारी को हर नागरिक के लिए, हर फ़ॉर्मेट और भाषा में, समझने लायक संदेश में बदलना”',
   why: [
     'संस्थाएँ समाचार, रिपोर्ट, एडवाइज़री, नीति दस्तावेज़ और रिसर्च को ब्रीफ़, पोस्ट, डेक और स्क्रिप्ट में बदलने में घंटों लगाती हैं। हर बार स्रोत को फिर से पढ़ना पड़ता है, समझना पड़ता है कि पाठकों को क्या चाहिए, और सब कुछ शुरू से लिखना पड़ता है।',
     'Sankshep.ai यही काम उनके लिए करता है। एक दस्तावेज़ अपलोड करें, फ़ॉर्मेट और पाठक चुनें, और हर ड्राफ़्ट उसी स्रोत से एक साथ लिखा जाता है, जाँचने और बदलने के लिए तैयार।',
@@ -48,7 +48,7 @@ export default function AboutPage() {
   return (
     <MotionConfig reducedMotion="user">
       <SitePage>
-        {/* Team name is the page's one focal point */}
+        {/* The SFIC team code is the page's one focal point */}
         <section className="mx-auto max-w-[1200px] px-5 pb-16 pt-14 sm:px-8 lg:pb-24 lg:pt-20">
           <p className="text-[13.5px] font-semibold text-ink-soft">{t.eyebrow}</p>
           <motion.h1
@@ -57,7 +57,7 @@ export default function AboutPage() {
             transition={{ duration: 0.8, ease: EASE }}
             className="font-headline mt-4 text-[clamp(3.5rem,11vw,9.5rem)] text-ink"
           >
-            Neural Ninjas <span className="font-serif text-matcha-deep">VGEC</span>
+            Team <span className="font-serif text-matcha-deep">TM003665</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -69,7 +69,7 @@ export default function AboutPage() {
           </motion.p>
         </section>
 
-        {/* The project: what SIH asked for, and what the name means */}
+        {/* The project: our SFIC problem statement, and what the name means */}
         <section className="border-y border-hair bg-white">
           <div className="mx-auto grid max-w-[1200px] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20 lg:py-24">
             <div>

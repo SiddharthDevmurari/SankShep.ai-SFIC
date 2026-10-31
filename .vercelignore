@@ -1,0 +1,18 @@
+# Never upload secrets: keys are set in Vercel → Settings → Environment Variables instead.
+.env
+.env.*
+!.env.local.example
+
+# Local-only files and build output (Vercel installs and builds on its own).
+node_modules
+dist
+main/test-api.mjs
+.claude
+
+# Unused screenshots and videos (no page imports them).
+main/src/imports/*.mp4
+main/src/imports/*.png
+.playwright-mcp
+graphify-out
+.agents
+test

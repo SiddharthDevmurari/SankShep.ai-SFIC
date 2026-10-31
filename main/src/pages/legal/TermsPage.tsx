@@ -13,7 +13,7 @@ const SECTIONS_EN: LegalSection[] = [
     body: (
       <>
         <p>
-          These terms apply to the Sankshep.ai website and workspace (“Sankshep.ai”, “the service”), built by the team Neural Ninjas VGEC
+          These terms apply to the Sankshep.ai website and workspace (“Sankshep.ai”, “the service”), built by SFIC team TM003665
           (“we”, “us”). By creating an account or using the workspace, you agree to them. If you do not agree, please do not use the service.
         </p>
         <p>They were written by the team for this student project and have not been reviewed by a lawyer.</p>
@@ -25,7 +25,7 @@ const SECTIONS_EN: LegalSection[] = [
     title: 'The service',
     body: (
       <p>
-        Sankshep.ai is a Smart India Hackathon prototype that turns source material into drafts in formats such as executive summaries,
+        Sankshep.ai is a Seva First Innovation Challenge (SFIC) prototype that turns source material into drafts in formats such as executive summaries,
         social posts, slide outlines and translations. It is provided free of charge, for evaluation and learning. Features may change,
         break or be removed at any time, and the service may be paused or shut down without notice.
       </p>
@@ -166,7 +166,7 @@ const SECTIONS_HI: LegalSection[] = [
     body: (
       <>
         <p>
-          ये शर्तें Sankshep.ai वेबसाइट और वर्कस्पेस (“Sankshep.ai”, “सेवा”) पर लागू होती हैं, जिसे टीम Neural Ninjas VGEC (“हम”) ने
+          ये शर्तें Sankshep.ai वेबसाइट और वर्कस्पेस (“Sankshep.ai”, “सेवा”) पर लागू होती हैं, जिसे SFIC टीम TM003665 (“हम”) ने
           बनाया है। अकाउंट बनाकर या वर्कस्पेस का इस्तेमाल करके आप इन शर्तों से सहमत होते हैं। अगर आप सहमत नहीं हैं, तो कृपया सेवा का
           इस्तेमाल न करें।
         </p>
@@ -179,7 +179,7 @@ const SECTIONS_HI: LegalSection[] = [
     title: 'सेवा',
     body: (
       <p>
-        Sankshep.ai स्मार्ट इंडिया हैकाथॉन का एक प्रोटोटाइप है, जो स्रोत सामग्री से कार्यकारी सारांश, सोशल पोस्ट, स्लाइड आउटलाइन और
+        Sankshep.ai सेवा फ़र्स्ट इनोवेशन चैलेंज (SFIC) का एक प्रोटोटाइप है, जो स्रोत सामग्री से कार्यकारी सारांश, सोशल पोस्ट, स्लाइड आउटलाइन और
         अनुवाद जैसे फ़ॉर्मेट में ड्राफ़्ट बनाता है। यह मूल्यांकन और सीखने के लिए मुफ़्त दिया जाता है। फ़ीचर कभी भी बदल सकते हैं, काम करना
         बंद कर सकते हैं या हटाए जा सकते हैं, और सेवा बिना सूचना के रोकी या बंद की जा सकती है।
       </p>

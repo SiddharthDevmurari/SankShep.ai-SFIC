@@ -1,13 +1,13 @@
-// What the demo works on. The source is the real SIH26154 problem statement, and every count shown
+// What the demo works on. The source is the team's own SFIC problem statement, and every count shown
 // in the mockup is computed from these strings.
 import {
   AtSign, Briefcase, ChartPie, Clapperboard, FileText, Languages, Lightbulb, Newspaper, Presentation, ShieldAlert,
 } from 'lucide-react'
-import source from '../../imports/Problem_Statement_details.txt?raw'
+import source from '../../imports/SFIC_Problem_Statement.txt?raw'
 
 export const countWords = (text: string) => (text.trim() ? text.trim().split(/\s+/).length : 0)
 
-export const SOURCE_NAME = 'Problem_Statement_details.txt'
+export const SOURCE_NAME = 'SFIC_Problem_Statement.txt'
 export const SOURCE_TEXT = source.trim()
 export const SOURCE_CHARS = SOURCE_TEXT.length
 export const SOURCE_WORDS = countWords(SOURCE_TEXT)
@@ -73,61 +73,62 @@ export const REFINE_PROMPT = 'Shorter, end with one question'
 // The drafts are written from the source above: no figures beyond what it states.
 export const DRAFTS: Record<DraftId, string> = {
   exec: `## The ask
-NTRO wants one platform that turns any source (news, reports, advisories, threat intelligence, policy papers) into the exact deliverable an operator asks for, from a single dashboard.
+Build Sankshep.ai, one platform that turns an official document into every format and language that citizens and officials need, for the Seva First Innovation Challenge (Track 2: Open Innovation).
 
 ## Why it matters
-Today every artefact is written by hand. Someone reads the source, works out the objective and drafts the format. It is slow, it needs content and domain expertise, and quality varies from writer to writer.
+Circulars, advisories and scheme guidelines only help when people understand them. Today every version is rewritten by hand: a summary for officials, a simple explanation for citizens, a post, a meeting deck, a video script. It is slow, it needs writing and translation skills, and the facts drift between versions.
 
-## What the platform must do
-- Accept text, documents, images, video or a free-form prompt as the source.
-- Let the operator pick one or more outputs: video package, LinkedIn post, X thread, advisory, infographic, executive summary or slides.
-- Give controls for audience, tone, language, level of detail and objective.
-- Draft every selected format from the same source, so they stay consistent.
+## Who it serves
+- Communication and IEC officers, PHC staff, panchayat and municipal staff, NGOs, and disaster and cyber-safety teams.
+- Through them, citizens who need information in their own language and in plain words.
 
-## What will be judged
-Source code, a README with setup steps, a two-page architecture note, a two-minute demo video and a five-slide technical deck.
+## What the prototype does
+- Takes a PDF, Word file, image, web link or pasted text as the source.
+- Drafts up to 10 formats at once, for the audience and tone you choose.
+- Translates into Hindi, Gujarati, Marathi, Bengali, Telugu and Tamil.
+- Runs entirely on the user's computer in Private mode, for confidential files.
 
 ## Decision needed
-Pick two or three recent advisories as pilot sources, and agree who reviews the drafts before they go out.`,
+Pick one department's recent advisories as pilot sources, and agree who checks the drafts before they go out.`,
 
-  linkedin: `One report often turns into five deliverables: a briefing, a post, a slide deck, a video script and an advisory. Each one is written from scratch.
+  linkedin: `A single circular often has to become five things: a summary for officers, a simple note for citizens, a post, a meeting deck and a video script. Each one is written by hand, often only in English.
 
-The Smart India Hackathon 2026 problem SIH26154, set by NTRO, asks for a platform that does this from a single source. Upload the content, choose the formats, set the audience and tone, and every deliverable is drafted together.
+For the Seva First Innovation Challenge, we are building Sankshep.ai to do that step. Upload the document, pick the formats, set the audience and tone, and every version is drafted together, in Hindi and five more Indian languages if needed.
 
-That is what we are building with Sankshep.ai. One source in, consistent drafts out, and a Private mode that keeps sensitive documents on your own machine.
+For confidential files, Private mode runs the AI on your own computer, so nothing leaves the office.
 
-If your team rewrites the same material for different audiences, which deliverable would you hand off first?
+If you work in a department, a PHC or an NGO, which version of your next advisory would you hand off first?
 
-#SIH2026 #GenAI #NTRO`,
+#SevaFirst #GovTech #GenAI`,
 
-  deck: `## Slide 1: One source, every format
-SIH26154 · Gen AI Platform for Automated Content Transformation · NTRO
+  deck: `## Slide 1: One circular, every citizen
+Sankshep.ai · Seva First Innovation Challenge · Track 2: Open Innovation
 
 ## Slide 2: The problem
-- Every artefact is drafted by hand from the source
-- Slow, expertise-heavy and inconsistent between writers
+- Every version of an official document is rewritten by hand
+- It goes out late, in English only, or in hard official language
 
-## Slide 3: What the operator does
-- Submits text, documents, images or video
-- Picks the outputs and sets audience, tone and language
+## Slide 3: Who it serves
+- IEC officers, PHC staff, panchayats, NGOs and safety teams
+- And through them, every citizen
 
-## Slide 4: What comes back
-- Video package, posts, advisory, infographic, summary and slides
-- Every format drafted from the same source
+## Slide 4: What Sankshep does
+- One source in, up to 10 formats out, drafted in parallel
+- Translation into six Indian languages
 
-## Slide 5: How it is judged
-- Source code, README and a two-page architecture note
-- A two-minute demo video and a five-slide deck`,
+## Slide 5: Safe for sensitive files
+- Private mode runs the AI on the user's own computer
+- Confidential documents never leave the device`,
 }
 
 /** The LinkedIn draft after the pointer asks for REFINE_PROMPT. */
-export const LINKEDIN_REFINED = `One report, five deliverables, each written from scratch.
+export const LINKEDIN_REFINED = `One circular, five versions, each written by hand.
 
-SIH26154 from NTRO asks for a platform that drafts them all from one source. We are building it as Sankshep.ai, with a Private mode for sensitive documents.
+For the Seva First Innovation Challenge, we are building Sankshep.ai to draft them all from one document, in Hindi and five more Indian languages, with a Private mode for confidential files.
 
-Which deliverable would you hand off first?
+Which version would you hand off first?
 
-#SIH2026 #GenAI`
+#SevaFirst #GovTech`
 
 const DATE = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 const TIME = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false })

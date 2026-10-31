@@ -3,21 +3,15 @@
 
 const en = {
   hero: {
-    sihLine: 'Smart India Hackathon 2026 · SIH26154 · NTRO',
-    sihProblem: 'Gen AI Platform for Automated Content Transformation',
+    challengeLine: 'SFIC · Seva First Innovation Challenge · Track 2: Open Innovation',
+    problemTitle: 'Turning official information into citizen-ready communication, in every format and language',
+    teamCode: 'Official Team Code: TM003665',
     title: 'Turn long, messy reports into ready-to-share content.',
-    body: 'Drop in research papers, policy briefs, YouTube links, or rough notes. Sankshep instantly creates clean summaries, video scripts, LinkedIn posts, and slide decks, keeping your data safe and private.',
+    body: 'Drop in research papers, policy briefs, web links, or rough notes. Sankshep instantly creates clean summaries, video scripts, LinkedIn posts, and slide decks, keeping your data safe and private.',
     launch: 'Launch Workspace',
     seeHow: 'See How It Works',
     noCard: 'No credit card',
     privateMode: 'Fully on-device Private mode',
-  },
-  demo: {
-    eyebrow: 'Demo video',
-    title: 'Watch Sankshep *at work.*',
-    body: 'Our Smart India Hackathon 2026 walkthrough of the workspace.',
-    open: 'Open on YouTube',
-    frameTitle: 'Sankshep.ai demo video',
   },
   security: {
     eyebrow: 'Privacy first',
@@ -94,21 +88,15 @@ const en = {
 
 const hi: typeof en = {
   hero: {
-    sihLine: 'स्मार्ट इंडिया हैकाथॉन 2026 · SIH26154 · NTRO',
-    sihProblem: 'स्वचालित कंटेंट रूपांतरण के लिए Gen AI प्लेटफ़ॉर्म',
+    challengeLine: 'SFIC · सेवा फ़र्स्ट इनोवेशन चैलेंज · ट्रैक 2: ओपन इनोवेशन',
+    problemTitle: 'सरकारी जानकारी को हर नागरिक तक, हर फ़ॉर्मेट और भाषा में, समझने लायक रूप में पहुँचाना',
+    teamCode: 'आधिकारिक टीम कोड: TM003665',
     title: 'लंबी, उलझी रिपोर्टों को शेयर करने लायक कंटेंट में बदलें।',
-    body: 'रिसर्च पेपर, नीति दस्तावेज़, YouTube लिंक या कच्चे नोट्स डालें। Sankshep तुरंत साफ़-सुथरे सारांश, वीडियो स्क्रिप्ट, LinkedIn पोस्ट और स्लाइड डेक बना देता है, और आपका डेटा सुरक्षित और निजी रखता है।',
+    body: 'रिसर्च पेपर, नीति दस्तावेज़, वेब लिंक या कच्चे नोट्स डालें। Sankshep तुरंत साफ़-सुथरे सारांश, वीडियो स्क्रिप्ट, LinkedIn पोस्ट और स्लाइड डेक बना देता है, और आपका डेटा सुरक्षित और निजी रखता है।',
     launch: 'वर्कस्पेस खोलें',
     seeHow: 'देखें यह कैसे काम करता है',
     noCard: 'क्रेडिट कार्ड की ज़रूरत नहीं',
     privateMode: 'Private mode, पूरी तरह आपके डिवाइस पर',
-  },
-  demo: {
-    eyebrow: 'डेमो वीडियो',
-    title: 'Sankshep को *काम करते देखें।*',
-    body: 'स्मार्ट इंडिया हैकाथॉन 2026 के लिए वर्कस्पेस का हमारा वॉकथ्रू (अंग्रेज़ी में)।',
-    open: 'YouTube पर खोलें',
-    frameTitle: 'Sankshep.ai डेमो वीडियो',
   },
   security: {
     eyebrow: 'गोपनीयता सबसे पहले',

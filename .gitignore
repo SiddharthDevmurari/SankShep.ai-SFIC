@@ -67,3 +67,6 @@ skills-lock.json
 photos/*
 !photos/logo.jpeg
 !photos/buttons/
+# Local tool output (browser test logs, Vercel link)
+.playwright-mcp/
+.vercel

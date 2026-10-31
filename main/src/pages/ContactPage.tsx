@@ -64,7 +64,7 @@ const EASE = [0.22, 1, 0.36, 1] as const
 const en = {
   eyebrow: 'Contact',
   title: 'Talk to the people who built it.',
-  lead: 'Questions about Sankshep.ai, the code, or our Smart India Hackathon build? Write to any of us directly, or open an issue on GitHub.',
+  lead: 'Questions about Sankshep.ai, the code, or our SFIC entry (Official Team Code: TM003665)? Write to any of us directly, or open an issue on GitHub.',
   contactsLabel: 'Team contacts',
   bugTitle: 'Found a bug or have an idea?',
   bugBody: 'Issues and pull requests on the repository reach the whole team at once.',
@@ -85,7 +85,7 @@ const en = {
 const hi: typeof en = {
   eyebrow: 'संपर्क',
   title: 'इसे बनाने वालों से बात करें।',
-  lead: 'Sankshep.ai, इसके कोड या हमारे स्मार्ट इंडिया हैकाथॉन प्रोजेक्ट के बारे में कोई सवाल है? हममें से किसी को भी सीधे लिखें, या GitHub पर एक issue खोलें।',
+  lead: 'Sankshep.ai, इसके कोड या हमारे SFIC प्रोजेक्ट (आधिकारिक टीम कोड: TM003665) के बारे में कोई सवाल है? हममें से किसी को भी सीधे लिखें, या GitHub पर एक issue खोलें।',
   contactsLabel: 'टीम के संपर्क',
   bugTitle: 'कोई बग मिला या कोई सुझाव है?',
   bugBody: 'रिपॉज़िटरी पर issue और pull request एक साथ पूरी टीम तक पहुँचते हैं।',

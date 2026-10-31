@@ -8,7 +8,7 @@
 --    • saved audience profiles (user metadata) on the admin and demo accounts
 --
 --  Then it creates (or resets) the two kept accounts:
---    admin@gmail.com / admin
+--    admin@gmail.com / the password you put in place of CHANGE_ME below (never commit it)
 --    demo@gmail.com  / Demo@1234
 --
 --  Run schema.sql first (it defines admin_email() and demo_email()), then
@@ -37,7 +37,7 @@ declare
 begin
   for acct in
     select * from (values
-      (public.admin_email(), 'admin',       'admin'),
+      (public.admin_email(), 'CHANGE_ME',   'admin'),
       (public.demo_email(),  'Demo@1234',   'user')
     ) as t(email, password, role)
   loop
