@@ -1,0 +1,309 @@
+- generic [ref=e2]:
+  - link "Skip to content" [ref=e3] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "Sankshep" [ref=e6] [cursor=pointer]:
+        - /url: "#top"
+        - generic [ref=e7]:
+          - generic [ref=e8]: संक्षेप
+          - generic [ref=e9]: Sankshep
+      - button "Close" [expanded] [active] [ref=e296]
+    - generic [ref=e298]:
+      - navigation "Primary" [ref=e299]:
+        - list [ref=e300]:
+          - listitem [ref=e301]:
+            - link "How it works" [ref=e302] [cursor=pointer]:
+              - /url: "#how"
+          - listitem [ref=e303]:
+            - link "Formats" [ref=e304] [cursor=pointer]:
+              - /url: "#formats"
+          - listitem [ref=e305]:
+            - link "Private mode" [ref=e306] [cursor=pointer]:
+              - /url: "#private"
+          - listitem [ref=e307]:
+            - link "Who it is for" [ref=e308] [cursor=pointer]:
+              - /url: "#who"
+      - generic [ref=e309]:
+        - group "Page language" [ref=e310]:
+          - button "English" [pressed] [ref=e311]: EN
+          - button "हिन्दी" [ref=e312]: हिं
+        - link "Open Sankshep" [ref=e313] [cursor=pointer]:
+          - /url: http://localhost:8443/login
+  - main [ref=e25]:
+    - region [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - paragraph [ref=e29]: "Seva First Innovation Challenge · Track 2: Open Innovation"
+          - heading "One circular. Every citizen understands it." [level=1] [ref=e30]:
+            - generic [ref=e31]: One circular.
+            - generic [ref=e32]: Every citizen understands it.
+          - paragraph [ref=e33]: एक परिपत्र। हर नागरिक तक, उसकी भाषा में।
+          - paragraph [ref=e34]: Sankshep turns an official document into a plain summary, an advisory, slides, a video script and social posts, in Hindi and five more Indian languages. Files that must stay private can be processed on your own computer.
+          - generic [ref=e35]:
+            - link "Try it with the demo account" [ref=e36] [cursor=pointer]:
+              - /url: http://localhost:8443/login
+            - link "See how it works" [ref=e37] [cursor=pointer]:
+              - /url: "#how"
+          - paragraph [ref=e38]: No sign-up needed. The demo account opens the full workspace.
+        - figure "Sample circular, written for this page" [ref=e39]:
+          - generic [ref=e41]:
+            - paragraph [ref=e42]: District Health Office
+            - generic [ref=e44]:
+              - generic [ref=e45]: No. DHO/ADV/07
+              - generic [ref=e46]: "Dated: 12 May"
+            - paragraph [ref=e47]: "Subject: Precautions during the prevailing heatwave"
+            - paragraph [ref=e48]: In view of the prevailing heatwave conditions, all residents are hereby advised to avoid exposure to direct sunlight between 12:00 noon and 3:00 p.m., to ensure adequate intake of fluids, and to report any symptoms of heat-related illness at the nearest Primary Health Centre, where Oral Rehydration Salts are available free of cost.
+            - 'img "Sankshep stamp: one source, every format"':
+              - generic:
+                - generic: SANKSHEP · ONE SOURCE · EVERY FORMAT ·
+                - generic: संक्षेप
+          - generic [ref=e49]:
+            - paragraph [ref=e50]: What Sankshep makes from it
+            - tablist "What Sankshep makes from it" [ref=e51]:
+              - tab "Plain English" [selected] [ref=e52]
+              - tab "हिन्दी" [ref=e53]
+              - tab "ગુજરાતી" [ref=e54]
+              - tab "X post" [ref=e55]
+            - tabpanel "Plain English" [ref=e56]:
+              - paragraph [ref=e57]: Simplified Explanation
+              - generic [ref=e58]:
+                - paragraph [ref=e59]: "Heatwave: how to stay safe"
+                - list [ref=e60]:
+                  - listitem [ref=e61]:
+                    - generic [ref=e63]: Stay indoors from 12 noon to 3 pm.
+                  - listitem [ref=e64]:
+                    - generic [ref=e66]: Drink water often, even if you are not thirsty.
+                  - listitem [ref=e67]:
+                    - generic [ref=e69]: Feeling dizzy, very hot or confused? Go to your nearest health centre. ORS is free there.
+            - paragraph [ref=e70]: Example outputs, written for this page
+    - region [ref=e71]:
+      - generic [ref=e72]:
+        - generic [ref=e73]:
+          - paragraph [ref=e74]: The problem
+          - heading "The information exists. It rarely reaches people in a form they can use." [level=2] [ref=e75]
+        - list [ref=e76]:
+          - listitem [ref=e77]:
+            - generic [ref=e78]: (i)
+            - generic [ref=e79]:
+              - heading "Written for files, not for people" [level=3] [ref=e80]
+              - paragraph [ref=e81]: Circulars and advisories are drafted in formal English. Many of the citizens they are meant for read another language, or find official wording hard to follow.
+          - listitem [ref=e82]:
+            - generic [ref=e83]: (ii)
+            - generic [ref=e84]:
+              - heading "Rewritten by hand, again and again" [level=3] [ref=e85]
+              - paragraph [ref=e86]: The same facts are retyped into a summary for officers, a poster, a meeting deck and a social post, by small teams with little time.
+          - listitem [ref=e87]:
+            - generic [ref=e88]: (iii)
+            - generic [ref=e89]:
+              - heading "Sensitive files get no help" [level=3] [ref=e90]
+              - paragraph [ref=e91]: Confidential documents cannot be pasted into public AI tools, so the teams that hold them do all of this by hand.
+    - region [ref=e92]:
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - paragraph [ref=e95]: How it works
+          - heading "From one file to every format, in a single sitting." [level=2] [ref=e96]
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - generic [ref=e99]: Noting sheet
+            - generic [ref=e100]: Sankshep
+          - list [ref=e105]:
+            - listitem [ref=e106]:
+              - generic [ref=e107]:
+                - generic [ref=e108]: "1."
+                - heading "Add the source" [level=3] [ref=e109]
+              - generic [ref=e110]:
+                - paragraph [ref=e111]: You do
+                - paragraph [ref=e112]: Upload a PDF, Word, text, CSV or JSON file, or an image or scanned page. You can also paste a web link or plain text.
+              - generic [ref=e113]:
+                - paragraph [ref=e114]: Sankshep does
+                - paragraph [ref=e115]: Reads the file in your browser. Scanned pages are read by a vision model, or by OCR on your own device.
+            - listitem [ref=e116]:
+              - generic [ref=e117]:
+                - generic [ref=e118]: "2."
+                - heading "Choose what you need" [level=3] [ref=e119]
+              - generic [ref=e120]:
+                - paragraph [ref=e121]: You do
+                - paragraph [ref=e122]: Pick one or more formats, who will read them, the tone, and a language for translation.
+              - generic [ref=e123]:
+                - paragraph [ref=e124]: Sankshep does
+                - paragraph [ref=e125]: Writes every chosen format at the same time, each fitted to the AI model you picked.
+            - listitem [ref=e126]:
+              - generic [ref=e127]:
+                - generic [ref=e128]: "3."
+                - heading "Refine and take it away" [level=3] [ref=e129]
+              - generic [ref=e130]:
+                - paragraph [ref=e131]: You do
+                - paragraph [ref=e132]: Ask for changes in plain words, such as "shorter" or "simpler words for villagers".
+              - generic [ref=e133]:
+                - paragraph [ref=e134]: Sankshep does
+                - paragraph [ref=e135]: Rewrites the draft. Slides download as PowerPoint, and everything is kept in your History.
+    - region [ref=e136]:
+      - generic [ref=e137]:
+        - generic [ref=e138]:
+          - paragraph [ref=e139]: Formats
+          - heading "Ten formats from one source, plus any you describe." [level=2] [ref=e140]
+        - generic [ref=e141]:
+          - region [ref=e142]:
+            - heading "For officers and meetings" [level=3] [ref=e143]
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - term [ref=e146]: Executive Summary
+                - definition [ref=e147]: Context, key points, the decision needed and next steps, in under 400 words.
+              - generic [ref=e148]:
+                - term [ref=e149]: PPT Presentation
+                - definition [ref=e150]: Title, agenda and content slides with speaker notes. Downloads as PowerPoint.
+              - generic [ref=e151]:
+                - term [ref=e152]: Advisory
+                - definition [ref=e153]: "A structured notice: findings, risk level, recommended actions and a timeline."
+          - region [ref=e154]:
+            - heading "For citizens" [level=3] [ref=e155]
+            - generic [ref=e156]:
+              - generic [ref=e157]:
+                - term [ref=e158]: Simplified Explanation
+                - definition [ref=e159]: The same facts in everyday words.
+              - generic [ref=e160]:
+                - term [ref=e161]: Language Translation
+                - definition [ref=e162]: The full text in Hindi, Gujarati, Marathi, Bengali, Telugu or Tamil.
+              - generic [ref=e163]:
+                - term [ref=e164]: Infographic
+                - definition [ref=e165]: Title, key figures, sections, and a layout and colour suggestion for a poster.
+          - region [ref=e166]:
+            - heading "For outreach" [level=3] [ref=e167]
+            - generic [ref=e168]:
+              - generic [ref=e169]:
+                - term [ref=e170]: Video
+                - definition [ref=e171]: Script, storyboard, narration, subtitles and visual ideas.
+              - generic [ref=e172]:
+                - term [ref=e173]: Blog Post
+                - definition [ref=e174]: A full article for a website or newsletter.
+              - generic [ref=e175]:
+                - term [ref=e176]: LinkedIn Post
+                - definition [ref=e177]: A post ready to publish.
+              - generic [ref=e178]:
+                - term [ref=e179]: Twitter/X Post
+                - definition [ref=e180]: A short thread ready to post.
+        - generic [ref=e181]:
+          - paragraph [ref=e182]: Custom format
+          - paragraph [ref=e183]: Describe any format in your own words, for example "a five-line WhatsApp message for ASHA workers".
+    - region [ref=e184]:
+      - generic [ref=e185]:
+        - generic [ref=e186]:
+          - heading "Six Indian languages, not just English." [level=2] [ref=e187]
+          - paragraph [ref=e188]: Translation keeps technical terms, and adds the English in brackets where a language has no word for them.
+        - list [ref=e189]:
+          - listitem [ref=e190]:
+            - generic [ref=e191]: हिन्दी
+            - generic [ref=e192]: Hindi
+          - listitem [ref=e193]:
+            - generic [ref=e194]: ગુજરાતી
+            - generic [ref=e195]: Gujarati
+          - listitem [ref=e196]:
+            - generic [ref=e197]: मराठी
+            - generic [ref=e198]: Marathi
+          - listitem [ref=e199]:
+            - generic [ref=e200]: বাংলা
+            - generic [ref=e201]: Bengali
+          - listitem [ref=e202]:
+            - generic [ref=e203]: తెలుగు
+            - generic [ref=e204]: Telugu
+          - listitem [ref=e205]:
+            - generic [ref=e206]: தமிழ்
+            - generic [ref=e207]: Tamil
+    - region [ref=e208]:
+      - generic [ref=e209]:
+        - generic [ref=e210]:
+          - paragraph [ref=e211]: Private mode
+          - heading "Confidential files never have to leave the office." [level=2] [ref=e212]
+          - paragraph [ref=e213]: "Some documents cannot go to an online AI service at all. One switch in the workspace moves every step onto your own computer: the file is read in the browser, and every draft is written by Qwen 2.5 VL running locally through Ollama."
+          - paragraph [ref=e214]: Stays on this computer
+          - paragraph [ref=e215]: Private mode needs Ollama and a computer with a capable graphics card. The workspace checks your hardware and tells you before you switch.
+        - list [ref=e221]:
+          - listitem [ref=e222]:
+            - paragraph [ref=e223]: Your document’s text
+            - paragraph [ref=e224]:
+              - generic [ref=e225]: "Cloud mode:"
+              - text: Sent to the AI provider
+            - paragraph [ref=e226]:
+              - generic [ref=e227]: "Private mode:"
+              - text: Stays on your computer
+          - listitem [ref=e228]:
+            - paragraph [ref=e229]: Drafts and changes
+            - paragraph [ref=e230]:
+              - generic [ref=e231]: "Cloud mode:"
+              - text: Written by the provider
+            - paragraph [ref=e232]:
+              - generic [ref=e233]: "Private mode:"
+              - text: Written by your own computer
+          - listitem [ref=e234]:
+            - paragraph [ref=e235]: Images and scanned pages
+            - paragraph [ref=e236]:
+              - generic [ref=e237]: "Cloud mode:"
+              - text: Read by a vision model
+            - paragraph [ref=e238]:
+              - generic [ref=e239]: "Private mode:"
+              - text: Read by OCR in the browser
+          - listitem [ref=e240]:
+            - paragraph [ref=e241]: What History keeps
+            - paragraph [ref=e242]:
+              - generic [ref=e243]: "Cloud mode:"
+              - text: An excerpt and the drafts
+            - paragraph [ref=e244]:
+              - generic [ref=e245]: "Private mode:"
+              - text: Counts only, never the text
+    - region [ref=e246]:
+      - generic [ref=e248]:
+        - paragraph [ref=e249]: Who it is for
+        - heading "Copy forwarded for information and necessary action to:" [level=2] [ref=e250]
+        - list [ref=e251]:
+          - listitem [ref=e252]:
+            - generic [ref=e253]: "1."
+            - paragraph [ref=e254]:
+              - strong [ref=e255]: Communication and IEC officers
+              - text: in departments and district administrations, who turn circulars into public messages.
+          - listitem [ref=e256]:
+            - generic [ref=e257]: "2."
+            - paragraph [ref=e258]:
+              - strong [ref=e259]: Health workers and PHC staff
+              - text: who pass on health advisories and scheme details to patients and villages.
+          - listitem [ref=e260]:
+            - generic [ref=e261]: "3."
+            - paragraph [ref=e262]:
+              - strong [ref=e263]: Panchayat and municipal staff
+              - text: who share notices, scheme updates and announcements with residents.
+          - listitem [ref=e264]:
+            - generic [ref=e265]: "4."
+            - paragraph [ref=e266]:
+              - strong [ref=e267]: NGOs and community organisations
+              - text: who explain government schemes to the people they serve.
+          - listitem [ref=e268]:
+            - generic [ref=e269]: "5."
+            - paragraph [ref=e270]:
+              - strong [ref=e271]: Disaster management and cyber-safety teams
+              - text: who need advisories out quickly, in more than one language.
+        - paragraph [ref=e272]: And through them, to every citizen who needs the information in words and a language they understand.
+    - region [ref=e273]:
+      - generic [ref=e274]:
+        - generic [ref=e275]:
+          - heading "Try it on a real circular." [level=2] [ref=e276]
+          - paragraph [ref=e277]: Open the workspace with the demo account, upload any notice, report or advisory, and pick the formats you need.
+        - link "Try it with the demo account" [ref=e279] [cursor=pointer]:
+          - /url: http://localhost:8443/login
+  - contentinfo [ref=e280]:
+    - generic [ref=e281]:
+      - generic [ref=e282]:
+        - generic [ref=e283]:
+          - generic [ref=e284]: संक्षेप
+          - generic [ref=e285]: Sankshep
+        - paragraph [ref=e286]: "Built for the Seva First Innovation Challenge, Track 2: Open Innovation."
+        - paragraph [ref=e287]: Sankshep (संक्षेप) is Hindi for "in brief".
+      - list [ref=e288]:
+        - listitem [ref=e289]:
+          - link "Privacy policy" [ref=e290] [cursor=pointer]:
+            - /url: http://localhost:8443/privacy-policy
+        - listitem [ref=e291]:
+          - link "Terms and conditions" [ref=e292] [cursor=pointer]:
+            - /url: http://localhost:8443/terms-and-conditions
+        - listitem [ref=e293]:
+          - link "Open Sankshep" [ref=e294] [cursor=pointer]:
+            - /url: http://localhost:8443/login

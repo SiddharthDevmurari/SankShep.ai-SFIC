@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-paper: #faf9f5;
+  --color-paper-deep: #f2f0e8;
+  /* Workspace canvas: a cooler, deeper stone than the marketing paper, so the app reads as its own surface
+     and white windows pop. ink-mute holds 4.9:1 on it. */
+  --color-canvas: #e0e0dc;
+  /* Window edge on the canvas: a crisp 1px line, darker than hair/line so it survives the deeper ground. */
+  --color-edge: #c9c8c1;
+  --color-ink: #0f100f;
+  --color-ink-soft: #33352f;
+  /* Secondary text. 6.4:1 on white, 5.6:1 on paper-deep — replaces ink-soft/40–60, which failed AA. */
+  --color-ink-mute: #5d5f57;
+  --color-matcha: #d4ed64;
+  --color-matcha-deep: #c3dd4f;
+  --color-mist: #bbd9fa;
+  --color-hair: #e7e4d9;
+  --color-hair-dark: #262826;
+  --color-line: #dcd8cb;
+
+  /* Newsreader for bold display headings; Instrument Serif for italic accents */
+  /* The Noto Devanagari faces only cover Hindi text: the Latin fonts have no Devanagari, so those characters
+     fall through to Noto, and Google serves those files only to pages that actually contain Hindi. */
+  --font-display: 'Newsreader', 'Noto Serif Devanagari', ui-serif, Georgia, serif;
+  --font-serif: 'Instrument Serif', 'Noto Serif Devanagari', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', 'Noto Sans Devanagari', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-matcha);
+  color: var(--color-ink);
+}
+
+/* upright display headings — Newsreader 600 for editorial weight without being too heavy */
+.font-display {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 0.96;
+}
+.font-display.font-bold {
+  font-weight: 700;
+  line-height: 1.02;
+}
+/* upright Instrument Serif for workspace page titles (History, Analytics) */
+.font-headline {
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+}
+/* Long-form legal copy: comfortable measure and rhythm for reading, not skimming. */
+.legal-prose {
+  color: var(--color-ink-soft);
+  font-size: 16px;
+  line-height: 1.75;
+}
+.legal-prose > * + * { margin-top: 1rem; }
+.legal-prose strong { color: var(--color-ink); font-weight: 600; }
+.legal-prose ul { list-style: disc; padding-left: 1.25rem; }
+.legal-prose ul > li + li { margin-top: 0.5rem; }
+.legal-prose ul > li::marker { color: var(--color-matcha-deep); }
+.legal-prose a {
+  color: var(--color-ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgba(15, 16, 15, 0.3);
+  text-underline-offset: 4px;
+}
+.legal-prose a:hover { text-decoration-color: var(--color-ink); }
+/* italic accent spans inside body copy — keep Instrument Serif */
+.font-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Hindi pages: Devanagari vowel signs sit above and below the line, so the tight display leading clips them;
+   letter-spacing pulls joined letters apart; and Devanagari has no italic, so the serif accent stays upright. */
+[lang='hi'] .font-display,
+[lang='hi'] .font-headline {
+  line-height: 1.22;
+  letter-spacing: 0;
+}
+[lang='hi'] .font-serif {
+  font-style: normal;
+  letter-spacing: 0;
+}
+[lang='hi'] [class*='tracking-'] {
+  letter-spacing: 0;
+}
+
+/* ---- word-by-word text reveal ---- */
+@keyframes sk-word {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+.sk-reveal .sk-w {
+  display: inline-block;
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+.sk-reveal.sk-play .sk-w {
+  animation: sk-word 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sk-reveal .sk-w {
+    opacity: 1 !important;
+    animation: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
+/* ---- entrance motion: panels rise in, chips pop in ---- */
+@keyframes sk-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes sk-pop {
+  0% { opacity: 0; transform: scale(0.94); }
+  60% { transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.sk-rise { animation: sk-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.sk-pop { animation: sk-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sk-rise, .sk-pop { animation: none; }
+}
+
+/* ---- highlighted motion-video frame glow ---- */
+@keyframes sk-glow {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.015); }
+}
+.sk-glow-ring {
+  animation: sk-glow 3.4s ease-in-out infinite;
+}
+
+/* Hide scrollbars until scrolling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+*:hover,
+*:focus-within {
+  scrollbar-color: rgba(15, 16, 15, 0.2) transparent;
+}
+
+/* ════ Workspace surfaces ═══════════════════════════════════════════════════ */
+
+/* Fades a dot-grid background out towards the edges (the login page's canvas). */
+.sk-dots-fade {
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, black 30%, transparent 100%);
+}
+
+/* Soft, ink-tinted elevation for sheets and floating controls. */
+.sk-sheet {
+  box-shadow:
+    0 0 0 1px rgba(231, 228, 217, 0.9),
+    0 1px 2px rgba(15, 16, 15, 0.04),
+    0 18px 48px -28px rgba(15, 16, 15, 0.28);
+}
+.sk-float {
+  box-shadow:
+    0 0 0 1px rgba(231, 228, 217, 0.95),
+    0 12px 40px -14px rgba(15, 16, 15, 0.22);
+}
+
+/* Workspace canvas: cool stone with a microscopic dot grid, so the margins read as a desk, not a void. */
+.sk-canvas {
+  background-color: var(--color-canvas);
+  background-image: radial-gradient(rgba(15, 16, 15, 0.075) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Workspace windows: layered like a native app window. Tight contact shadow for the edge,
+   a mid shadow for lift, and a long soft drop so the sheet floats off the canvas. */
+.sk-elevated {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 1px 1px rgba(20, 22, 20, 0.06),
+    0 2px 4px -1px rgba(20, 22, 20, 0.07),
+    0 12px 24px -10px rgba(20, 22, 20, 0.16),
+    0 36px 72px -28px rgba(20, 22, 20, 0.30);
+}
+
+/* Skeleton shimmer for loading placeholders. */
+@keyframes sk-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+.sk-skeleton {
+  background: linear-gradient(90deg, #efece3 0%, #f7f5ef 50%, #efece3 100%);
+  background-size: 200% 100%;
+  animation: sk-shimmer 1.6s ease-in-out infinite;
+}
+
+/* Indeterminate progress sweep on the generate button. */
+@keyframes sk-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(250%); }
+}
+.sk-sweep { animation: sk-sweep 1.4s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+
+/* Bar-chart fills draw in from the left. */
+@keyframes sk-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.sk-grow {
+  transform-origin: left;
+  animation: sk-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Where streamed text is arriving; it blinks only while a draft is being written. */
+@keyframes sk-blink {
+  50% { opacity: 0; }
+}
+/* The caret rides at the end of the last line of a streaming draft (RichText's blocks sit directly inside). */
+.sk-live > :is(p, h2, h3):last-child::after,
+.sk-live > :is(ul, ol):last-child > li:last-child::after {
+  content: '';
+  display: inline-block;
+  width: 0.5em;
+  height: 1.05em;
+  margin-left: 0.15em;
+  vertical-align: -0.15em;
+  border-radius: 2px;
+  background: var(--color-matcha-deep);
+  animation: sk-blink 1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk-skeleton, .sk-sweep, .sk-grow { animation: none; }
+  .sk-live > :is(p, h2, h3):last-child::after,
+  .sk-live > :is(ul, ol):last-child > li:last-child::after { animation: none; }
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

@@ -1,0 +1,906 @@
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import {
+  ArrowUp, Check, CircleAlert, Copy, Download, Eye, Hourglass, Info, Lock, PenLine, ScrollText, Square, WandSparkles, X,
+} from 'lucide-react'
+import type { OutputFormat, FormatResult, ModelRun } from '../lib/pipeline'
+import { regenerateFormat } from '../lib/pipeline'
+import { logActivity, previewOf, storedModel, withoutContent } from '../lib/activity'
+import { isAbortError, isLocal, OwnKeyError, providerInfo, withoutKey, type ApiKeys } from '../lib/providers'
+import { KeyConsentDialog } from './KeyConsentDialog'
+import type { ToneOption } from '../lib/pipeline'
+import { RichText } from './RichText'
+import { StepNumber, toneLabel, type LeftPanelStatus } from './LeftPanel'
+import type { LiveStream, RunContext } from './TransformView'
+import { BrandMark } from '../components/site/SiteChrome'
+import { buildPptx, fileSlug, saveFile, toPlainText, type ExportKind } from '../lib/exporters'
+
+/** A banner over the canvas. `error` means the work did not go through; `info` explains how it went. */
+export interface Notice {
+  text: string
+  kind: 'error' | 'info'
+}
+
+interface Props {
+  /** One run per model; more than one means the user is comparing models. */
+  runs: ModelRun[]
+  runContext: RunContext | null
+  parsedSource: string
+  tone: ToneOption
+  generating: boolean
+  selectedFormats: OutputFormat[]
+  /** A failed run, or information about how the run went (e.g. a long source was sampled, or it was stopped). */
+  notice: Notice | null
+  onDismissNotice: () => void
+  status: LeftPanelStatus | null
+  /** Stops the generation in flight. */
+  onStop: () => void
+  /** Changes only when a run replaces the canvas; edits, refinements and their prompts reset with it. */
+  canvasId: number
+  /** Formats being added to the drafts already on the canvas; they show as tabs being written. */
+  pendingFormats: OutputFormat[]
+  /** A run on the local engine: drafts stream in one at a time, and `pendingFormats` wait their turn. */
+  stream: LiveStream | null
+}
+
+const EMPTY_QUOTE =
+  'Transform your content into multiple formats. Upload your source, select your outputs, and generate accurate, editable drafts in seconds.'
+
+const SHORT_LABEL: Partial<Record<OutputFormat, string>> = {
+  'Twitter/X Post': 'X / Twitter',
+  'PPT Presentation': 'Slide Deck',
+  'Simplified Explanation': 'Simplified',
+  'Language Translation': 'Translation',
+}
+
+function countWords(text: string) {
+  const t = text.trim()
+  return t ? t.split(/\s+/).length : 0
+}
+
+export function RightPanel({ runs, runContext, parsedSource, tone, generating, selectedFormats, notice, onDismissNotice, status, onStop, canvasId, pendingFormats, stream }: Props) {
+  const comparing = runs.length > 1
+  const results: Partial<Record<OutputFormat, FormatResult>> = runs[0]?.results ?? {}
+  const [activeTab, setActiveTab] = useState<OutputFormat | null>(null)
+  // Finished drafts open in Preview; Edit is one click away.
+  const [viewMode, setViewMode] = useState<'editor' | 'mockup'>('mockup')
+  const [showSource, setShowSource] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [refinement, setRefinement] = useState('')
+  const [regenerating, setRegenerating] = useState(false)
+  const [localResults, setLocalResults] = useState<Partial<Record<OutputFormat, FormatResult>>>({})
+  const editorRef = useRef<HTMLTextAreaElement>(null)
+
+  // A run that replaces the canvas replaces every draft; edits and refinements belong to the canvas they
+  // were made on. It also opens in Preview again, even if the last run was left in Edit. Adding formats
+  // keeps the canvas (and its id), so nothing here resets.
+  useEffect(() => {
+    setLocalResults({})
+    setViewMode('mockup')
+  }, [canvasId])
+
+  // A format being written again (it had failed) sheds any local copy, so the new draft shows once it lands.
+  useEffect(() => {
+    if (!pendingFormats.length) return
+    setLocalResults((prev) => Object.fromEntries(Object.entries(prev).filter(([f]) => !pendingFormats.includes(f as OutputFormat))))
+  }, [pendingFormats])
+
+  // Merge API results with locally-regenerated overrides
+  const merged: Partial<Record<OutputFormat, FormatResult>> = { ...results, ...localResults }
+
+  // A refinement streaming from the local engine; the draft it replaces stays in `merged` until it lands.
+  const [refineLive, setRefineLive] = useState<{ format: OutputFormat; text: string } | null>(null)
+
+  // Determine active tab
+  const isPending = (f: OutputFormat) => pendingFormats.includes(f)
+  const drafted = selectedFormats.filter((f) => merged[f] || runs.some((r) => r.results[f]))
+  const tabs = selectedFormats.filter((f) => isPending(f) || drafted.includes(f))
+  const currentTab = activeTab && tabs.includes(activeTab) ? activeTab : tabs[0] ?? null
+  const pendingTab = !!currentTab && isPending(currentTab)
+  const activeResult = currentTab && !pendingTab ? merged[currentTab] : null
+  // Text still being written on this device, for a new draft or a refinement.
+  const liveText = refineLive && refineLive.format === currentTab ? refineLive.text : activeResult?.live ? activeResult.output : null
+  const isLive = liveText !== null
+  const output = liveText ?? activeResult?.output ?? ''
+
+  // While the local engine writes, the canvas follows the draft being written, until the user picks a tab.
+  const [followLive, setFollowLive] = useState(true)
+  const streaming = !!stream
+  useEffect(() => { if (streaming) setFollowLive(true) }, [streaming])
+  useEffect(() => {
+    if (followLive && stream?.writing) setActiveTab(stream.writing)
+  }, [followLive, stream?.writing])
+
+  // Grow the editor with its content so the page scrolls, not the textarea.
+  useLayoutEffect(() => {
+    const el = editorRef.current
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${el.scrollHeight}px`
+  }, [output, currentTab, viewMode, showSource])
+
+  // Streaming text keeps the newest line in view, unless the reader has scrolled up to read.
+  const canvasRef = useRef<HTMLDivElement>(null)
+  const stickToEnd = useRef(true)
+  useEffect(() => { stickToEnd.current = true }, [currentTab])
+  useEffect(() => {
+    const el = canvasRef.current
+    if (isLive && el && stickToEnd.current) el.scrollTop = el.scrollHeight
+  }, [isLive, output])
+
+  /* ─── Copy ──────────────────────────────────────────────────────────────── */
+  const handleCopy = async () => {
+    if (!activeResult?.output) return
+    // The clipboard can refuse (no permission, or a non-HTTPS page); say so instead of failing silently.
+    try {
+      await navigator.clipboard.writeText(activeResult.output)
+    } catch {
+      setLocalNotice({ text: 'Couldn’t copy to the clipboard. Select the text and copy it, or download the draft instead.', kind: 'error' })
+      return
+    }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  /* ─── Download ──────────────────────────────────────────────────────────── */
+  // This panel's own banner (a failed export or refinement); it shows over `notice`.
+  const [localNotice, setLocalNotice] = useState<Notice | null>(null)
+  useEffect(() => { setLocalNotice(null) }, [currentTab, runs])
+
+  const handleExport = async (kind: ExportKind) => {
+    if (!activeResult?.output || !currentTab) return
+    setLocalNotice(null)
+    const name = fileSlug(currentTab === 'PPT Presentation' ? 'Slide Deck' : currentTab)
+    try {
+      if (kind === 'pptx') {
+        saveFile(await buildPptx(activeResult.output, 'Slide Deck'), `${name}.pptx`)
+      } else if (kind === 'txt') {
+        saveFile(new Blob([toPlainText(activeResult.output)], { type: 'text/plain;charset=utf-8' }), `${name}.txt`)
+      } else {
+        saveFile(new Blob([activeResult.output], { type: 'text/markdown;charset=utf-8' }), `${name}.md`)
+      }
+    } catch (err) {
+      setLocalNotice({ text: err instanceof Error ? err.message : String(err), kind: 'error' })
+    }
+  }
+
+  /* ─── Regenerate (independent — only this tab) ──────────────────────────── */
+  // The refinement in flight, so Stop can abort it.
+  const refineAbort = useRef<AbortController | null>(null)
+  // A refinement halted by a failing own key, waiting for the user to allow the shared keys.
+  const [keyConsent, setKeyConsent] = useState<{ error: OwnKeyError; keys: ApiKeys } | null>(null)
+  // Once allowed, the shared keys keep refining this run's drafts without asking again; a new run asks afresh.
+  const [allowedKeys, setAllowedKeys] = useState<ApiKeys | null>(null)
+  // A run that replaces the canvas replaces the drafts, so a refinement still in flight (or waiting on the
+  // key prompt) belongs to drafts that are gone: stop it, so its result can't land on the new run's tab.
+  // Adding formats leaves the drafts in place, so a refinement carries on.
+  useEffect(() => {
+    refineAbort.current?.abort()
+    setKeyConsent(null)
+    setAllowedKeys(null)
+    setRefineLive(null)
+  }, [canvasId])
+  useEffect(() => () => refineAbort.current?.abort(), [])
+
+  /** `keys` defaults to the run's (or the ones the user allowed for it); after consent it is those minus the failing provider's. */
+  const handleRegenerate = async (keys?: ApiKeys) => {
+    if (!currentTab || !activeResult || !refinement.trim() || regenerating || !runContext || streaming) return
+    const useKeys = keys ?? allowedKeys ?? runContext.engine.keys
+    const ref = runs[0].ref
+    const local = isLocal(ref)
+    setRegenerating(true)
+    setLocalNotice(null)
+    const controller = new AbortController()
+    refineAbort.current = controller
+    const t0 = Date.now()
+    const tab = currentTab
+    let result: FormatResult
+    try {
+      // Refine with the model and key that wrote the draft (refining is single-model only).
+      // A local rewrite streams over the draft; the draft itself changes only once the rewrite is done.
+      result = await regenerateFormat(
+        tab,
+        activeResult.output,
+        refinement,
+        parsedSource,
+        ref,
+        useKeys,
+        runContext.audience,
+        controller.signal,
+        local ? (text) => { if (!controller.signal.aborted) setRefineLive({ format: tab, text }) } : undefined,
+      )
+    } catch (err) {
+      // A stop keeps the draft and the typed instruction as they were; a failing own key asks first.
+      if (err instanceof OwnKeyError) setKeyConsent({ error: err, keys: useKeys })
+      else if (!isAbortError(err)) setLocalNotice({ text: err instanceof Error ? err.message : String(err), kind: 'error' })
+      return
+    } finally {
+      if (refineAbort.current === controller) refineAbort.current = null
+      setRegenerating(false)
+      setRefineLive(null)
+    }
+    // Stopped after the answer arrived (Stop, or a new run replacing these drafts): drop it.
+    if (controller.signal.aborted) return
+    const model = storedModel(result)
+    const entry = {
+      action: 'regenerate' as const,
+      ...previewOf(parsedSource),
+      formats: [tab],
+      tone,
+      refinement: refinement.trim() || null,
+      outputs: result.status === 'success' ? { [tab]: result.output } : null,
+      models: model ? { [tab]: model } : null,
+      status: result.status,
+      success_count: result.status === 'success' ? 1 : 0,
+      error_count: result.status === 'success' ? 0 : 1,
+      error_message: result.error ?? null,
+      duration_ms: Date.now() - t0,
+    }
+    // Private mode: History gets the counts, never the text.
+    void logActivity(local ? withoutContent(entry) : entry)
+    // Only update the refined tab — all other tabs are untouched
+    setLocalResults((prev) => ({ ...prev, [tab]: result }))
+    setRefinement('')
+  }
+
+  const acceptSharedKey = () => {
+    if (!keyConsent) return
+    const { error, keys } = keyConsent
+    const allowed = withoutKey(keys, error.provider)
+    setKeyConsent(null)
+    setAllowedKeys(allowed)
+    void handleRegenerate(allowed)
+  }
+
+  const consentDialog = keyConsent && (
+    <KeyConsentDialog error={keyConsent.error} onUseShared={acceptSharedKey} onCancel={() => setKeyConsent(null)} />
+  )
+
+  const exportOptions: { kind: ExportKind; label: string; hint: string }[] = [
+    ...(currentTab === 'PPT Presentation' ? [{ kind: 'pptx' as const, label: 'PowerPoint', hint: '.pptx' }] : []),
+    { kind: 'md', label: 'Markdown', hint: '.md' },
+    { kind: 'txt', label: 'Plain text', hint: '.txt' },
+  ]
+
+  const banner = localNotice ?? notice
+  const noticeBanner = banner && (
+    <div role="alert" className="sk-rise absolute left-1/2 top-6 z-20 flex w-[min(640px,calc(100%-3rem))] -translate-x-1/2 items-start gap-3 rounded-2xl bg-white px-4 py-3.5 text-[13px] text-ink sk-float">
+      {banner.kind === 'error'
+        ? <CircleAlert className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
+        : <Info className="mt-0.5 h-4 w-4 shrink-0 text-ink-mute" />}
+      <p className="flex-1 whitespace-pre-line leading-relaxed">{banner.text}</p>
+      <button onClick={() => (localNotice ? setLocalNotice(null) : onDismissNotice())} aria-label="Dismiss" className="rounded-full p-1 text-ink-mute hover:bg-paper-deep hover:text-ink">
+        <X className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  )
+
+  /* ─── Loading state ─────────────────────────────────────────────────────── */
+  // The local engine's queued tabs exist from the start; its canvas opens with the first streamed words.
+  if (generating && (stream ? drafted.length === 0 : tabs.length === 0)) {
+    // Images are read by a vision model or on-device OCR before any writing starts, so they run longer.
+    const imageSource = !!status?.sourceLabel && /\.(png|jpe?g|webp)$/i.test(status.sourceLabel)
+    return (
+      <div className="flex min-h-0 flex-1 flex-col">
+        <CanvasHeader
+          title="Output canvas"
+          status={`Drafting ${selectedFormats.length} ${selectedFormats.length === 1 ? 'format' : 'formats'} · ${status?.engineLabel ?? ''}`}
+          // Here too, so a run can be stopped with the settings panel collapsed.
+          action={
+            <button
+              type="button"
+              onClick={onStop}
+              className="flex min-h-10 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-red-700 ring-1 ring-inset ring-red-200 transition-colors hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+            >
+              <Square className="h-3 w-3 fill-current" aria-hidden />
+              Stop generating
+            </button>
+          }
+        />
+        <div className="flex-1 overflow-y-auto px-6 py-10 sm:px-10">
+          <div className="mx-auto w-full max-w-[640px]" aria-live="polite">
+            {stream ? (
+              <div className="flex items-start gap-3 rounded-xl bg-matcha/25 px-4 py-3.5 ring-1 ring-matcha-deep/60">
+                <Lock className="mt-0.5 h-4 w-4 shrink-0 text-ink" />
+                <div>
+                  <p className="text-[14px] font-semibold text-ink">
+                    Loading <span className="font-mono text-[13px]">{stream.model}</span> on this device.
+                  </p>
+                  <p className="mt-0.5 text-[13px] leading-relaxed text-ink-soft">
+                    {imageSource ? 'The image is read with on-device OCR first. ' : ''}
+                    The first run loads the model into memory, which can take a minute. Drafts then stream in one at a time, and nothing leaves this computer.
+                  </p>
+                </div>
+              </div>
+            ) : imageSource ? (
+              <div className="flex items-start gap-3 rounded-xl bg-matcha/25 px-4 py-3.5 ring-1 ring-matcha-deep/60">
+                <Hourglass className="mt-0.5 h-4 w-4 shrink-0 text-ink" />
+                <div>
+                  <p className="text-[14px] font-semibold text-ink">It might take a while since this is an image.</p>
+                  <p className="mt-0.5 text-[13px] text-ink-soft">We read the image first, then write each format in parallel. Keep this tab open.</p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-[14px] text-ink-mute">
+                Reading your source, then writing each format in parallel. This usually takes under a minute.
+              </p>
+            )}
+            <ul className="mt-6 divide-y divide-line rounded-xl border border-line">
+              {selectedFormats.map((f, i) => (
+                <li key={f} className="sk-rise flex items-center gap-4 px-4 py-3.5" style={{ animationDelay: `${i * 60}ms` }}>
+                  <span className="w-40 shrink-0 truncate text-[14px] font-medium text-ink">{SHORT_LABEL[f] ?? f}</span>
+                  <span className="sk-skeleton h-2 flex-1 rounded-full" />
+                  <span className="text-[12.5px] text-ink-mute">{!stream ? 'Writing…' : i === 0 ? 'Starts first' : 'Queued'}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  /* ─── Empty state: a quiet, centred placeholder; the steps live in the settings panel ── */
+  if (tabs.length === 0) {
+    return (
+      <div className="relative flex min-h-0 flex-1 flex-col">
+        {noticeBanner}
+        <div className="flex flex-1 items-center justify-center overflow-y-auto px-6 py-16 sm:px-10">
+          <div className="sk-rise flex max-w-[34rem] flex-col items-center text-center">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-paper-deep text-ink-mute ring-1 ring-hair" aria-hidden>
+              <PenLine className="h-5 w-5" strokeWidth={1.6} />
+            </span>
+            <blockquote className="mt-7 font-serif text-[clamp(1.3rem,1.7vw,1.6rem)] italic leading-[1.45] text-ink-soft [text-wrap:balance]">
+              “{EMPTY_QUOTE}”
+            </blockquote>
+            <p className="mt-6 text-[13px] text-ink-mute">Nothing generated yet. Your drafts will open here.</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  /* ─── Main output view ──────────────────────────────────────────────────── */
+  const words = countWords(output)
+  const isError = activeResult?.status === 'error'
+
+  return (
+    <div className="relative flex min-h-0 flex-1 flex-col">
+      {noticeBanner}
+      {consentDialog}
+
+      {/* Toolbar */}
+      <div className="flex min-h-[60px] shrink-0 flex-wrap items-center justify-between gap-3 border-b border-hair bg-white px-4 py-2.5 lg:px-5">
+        {/* Format switcher: segmented control */}
+        <div role="tablist" aria-label="Generated formats" className="no-scrollbar flex max-w-full items-center gap-1 overflow-x-auto rounded-full bg-paper-deep/80 p-1 ring-1 ring-hair">
+          {tabs.map((fmt) => {
+            const writing = isPending(fmt)
+            const r = comparing ? runs.map((run) => run.results[fmt]).find((x) => x?.status === 'error') : merged[fmt]
+            const active = fmt === currentTab
+            return (
+              <button
+                key={fmt}
+                role="tab"
+                aria-selected={active}
+                aria-busy={writing || !!r?.live}
+                onClick={() => { setActiveTab(fmt); if (streaming) setFollowLive(false) }}
+                className={`flex h-9 shrink-0 items-center gap-2 rounded-full px-4 text-[13px] font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20 ${
+                  active
+                    ? 'bg-white text-ink shadow-[0_0_0_1px_rgba(231,228,217,0.9),0_2px_8px_-3px_rgba(15,16,15,0.18)]'
+                    : writing ? 'text-ink-mute hover:text-ink' : 'text-ink-soft hover:text-ink'
+                }`}
+              >
+                {writing && stream
+                  ? <Hourglass className="h-3 w-3 text-ink-mute" aria-label="queued" />
+                  : writing || r?.live
+                    ? <span className="h-3 w-3 animate-spin rounded-full border-[1.5px] border-ink/15 border-t-ink/70" aria-label="being written" />
+                    : r?.status === 'error' && <span className="h-1.5 w-1.5 rounded-full bg-red-600" aria-label="failed" />}
+                {SHORT_LABEL[fmt] ?? fmt}
+              </button>
+            )
+          })}
+        </div>
+
+        {pendingTab ? (
+          <p className="text-[13px] text-ink-mute">{stream ? 'Waiting its turn…' : 'Writing this draft…'}</p>
+        ) : isLive ? (
+          <p className="flex items-center gap-2 text-[13px] text-ink-mute" aria-live="off">
+            <Lock className="h-3.5 w-3.5" aria-hidden />
+            {refineLive ? 'Rewriting' : 'Writing'} on this device
+            <span className="font-mono text-[12px] text-ink tabular-nums">{countWords(output).toLocaleString()} words</span>
+          </p>
+        ) : comparing ? (
+          <p className="text-[13px] text-ink-mute">
+            Comparing <span className="font-mono font-medium text-ink tabular-nums">{runs.length}</span> models
+            {runContext?.imageReadBy && <> · image read with <span className="font-mono text-[12px] text-ink">{runContext.imageReadBy}</span></>}
+          </p>
+        ) : (
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-0.5 rounded-full bg-paper-deep/80 p-1 ring-1 ring-hair">
+            {([['editor', 'Edit', PenLine], ['mockup', 'Preview', Eye]] as const).map(([mode, label, Icon]) => (
+              <button
+                key={mode}
+                onClick={() => setViewMode(mode)}
+                aria-pressed={viewMode === mode}
+                className={`flex h-8 items-center gap-1.5 rounded-full px-3 text-[12.5px] font-medium transition-all ${
+                  viewMode === mode ? 'bg-white text-ink shadow-[0_0_0_1px_rgba(231,228,217,0.9)]' : 'text-ink-soft hover:text-ink'
+                }`}
+              >
+                <Icon className="h-3.5 w-3.5" /> {label}
+              </button>
+            ))}
+          </div>
+          <IconButton label={showSource ? 'Hide source' : 'Show parsed source'} onClick={() => setShowSource((v) => !v)} active={showSource} className="hidden xl:flex">
+            <ScrollText className="h-4 w-4" />
+          </IconButton>
+          <IconButton label={copied ? 'Copied' : 'Copy'} onClick={handleCopy}>
+            {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+          </IconButton>
+          <DownloadMenu options={exportOptions} onPick={handleExport} disabled={!output || isError} />
+        </div>
+        )}
+      </div>
+
+      {/* The local engine: which draft is being written, how many wait, and the stop */}
+      {stream && (
+        <div className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2 border-b border-hair bg-paper px-4 py-2.5 lg:px-5" aria-live="polite">
+          <span className="relative h-1 w-16 shrink-0 overflow-hidden rounded-full bg-hair" aria-hidden>
+            <span className="sk-sweep absolute inset-y-0 left-0 w-1/3 rounded-full bg-matcha-deep" />
+          </span>
+          <p className="min-w-0 flex-1 text-[13px] text-ink-soft">
+            <span className="font-semibold text-ink">
+              {stream.writing ? `Writing ${SHORT_LABEL[stream.writing] ?? stream.writing}` : 'Loading the model'}
+            </span>
+            {' · on this device'}
+            {pendingFormats.length > 0 && <>{' · '}{pendingFormats.length} queued</>}
+            <span className="hidden sm:inline">{' · '}one draft at a time</span>
+          </p>
+          <button
+            type="button"
+            onClick={onStop}
+            className="flex min-h-9 items-center gap-2 rounded-lg px-3 text-[12.5px] font-medium text-red-700 ring-1 ring-inset ring-red-200 transition-colors hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+          >
+            <Square className="h-2.5 w-2.5 fill-current" aria-hidden />
+            Stop generating
+          </button>
+        </div>
+      )}
+
+      {/* Adding formats: say exactly which are being written, that the rest stay, and offer the stop here too */}
+      {!stream && pendingFormats.length > 0 && (
+        <div className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2 border-b border-hair bg-paper px-4 py-2.5 lg:px-5" aria-live="polite">
+          <span className="relative h-1 w-16 shrink-0 overflow-hidden rounded-full bg-hair" aria-hidden>
+            <span className="sk-sweep absolute inset-y-0 left-0 w-1/3 rounded-full bg-matcha-deep" />
+          </span>
+          <p className="min-w-0 flex-1 text-[13px] text-ink-soft">
+            <span className="font-semibold text-ink">
+              Drafting {pendingFormats.length} new {pendingFormats.length === 1 ? 'format' : 'formats'}
+            </span>
+            {' · '}{pendingFormats.map((f) => SHORT_LABEL[f] ?? f).join(', ')}
+            <span className="hidden sm:inline">{' · '}your other drafts stay as they are</span>
+          </p>
+          <button
+            type="button"
+            onClick={onStop}
+            className="flex min-h-9 items-center gap-2 rounded-lg px-3 text-[12.5px] font-medium text-red-700 ring-1 ring-inset ring-red-200 transition-colors hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+          >
+            <Square className="h-2.5 w-2.5 fill-current" aria-hidden />
+            Stop
+          </button>
+        </div>
+      )}
+
+      {pendingTab && currentTab ? (
+        <PendingDraft
+          format={currentTab}
+          queue={stream ? (stream.writing === null && pendingFormats[0] === currentTab ? 'loading' : 'queued') : undefined}
+        />
+      ) : comparing && currentTab ? (
+        <CompareView runs={runs} format={currentTab} />
+      ) : (
+
+      <div className="flex min-h-0 flex-1">
+        {/* Parsed source drawer */}
+        {showSource && (
+          <aside className="hidden w-[340px] shrink-0 flex-col border-r border-line bg-paper-deep/50 xl:flex">
+            <div className="flex items-center justify-between border-b border-hair px-6 py-3.5">
+              <p className="text-[12.5px] font-semibold text-ink-mute">Parsed source</p>
+              <p className="font-mono text-[11px] text-ink-mute">{countWords(parsedSource).toLocaleString()} words</p>
+            </div>
+            <div className="flex-1 overflow-y-auto px-6 py-5">
+              <p className="whitespace-pre-wrap text-[13px] leading-[1.75] text-ink-soft">{parsedSource || 'Source will appear here after generation.'}</p>
+            </div>
+          </aside>
+        )}
+
+        {/* Reading canvas */}
+        <div className="relative min-w-0 flex-1 bg-paper">
+          <div
+            ref={canvasRef}
+            onScroll={(e) => {
+              const el = e.currentTarget
+              stickToEnd.current = el.scrollHeight - el.scrollTop - el.clientHeight < 160
+            }}
+            className="h-full overflow-y-auto px-4 pb-44 pt-8 sm:px-8"
+          >
+            {activeResult?.stopped && !isLive && output && (
+              <p className="mx-auto mb-4 flex max-w-[900px] items-start gap-2.5 rounded-xl border border-line bg-white px-4 py-3 text-[13px] leading-snug text-ink-soft">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-ink-mute" aria-hidden />
+                <span>
+                  <span className="font-semibold text-ink">Stopped mid-draft.</span> This is as far as it got. Refine it below, or generate this format again to write it in full.
+                </span>
+              </p>
+            )}
+            {isLive && currentTab ? (
+              <LiveDraft format={currentTab} content={output} refining={!!refineLive} />
+            ) : isError ? (
+              <div className="sk-sheet mx-auto max-w-[720px] rounded-2xl bg-white px-8 py-12 text-center">
+                <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-red-600 ring-1 ring-red-100">
+                  <CircleAlert className="h-5 w-5" />
+                </span>
+                <p className="mt-5 font-serif text-[26px] text-ink">This draft didn’t come through.</p>
+                <p className="mx-auto mt-2 max-w-md font-mono text-[12px] leading-relaxed text-red-800">{activeResult?.error}</p>
+                <p className="mt-4 text-[13px] text-ink-soft">Describe a change below to try this format again.</p>
+              </div>
+            ) : viewMode === 'editor' ? (
+              <article className="sk-sheet mx-auto max-w-[900px] rounded-2xl bg-white px-7 py-10 sm:px-14 sm:py-14">
+                <header className="mb-8 border-b border-hair pb-7">
+                  <p className="text-[12.5px] font-semibold text-ink-mute">
+                    Draft · {toneLabel(tone).toLowerCase()}{runContext?.audience && <> · for {runContext.audience.name}</>}
+                  </p>
+                  <h2 className="mt-3 font-display text-[clamp(1.9rem,3vw,2.6rem)] font-bold text-ink">{currentTab}</h2>
+                  <p className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11.5px] text-ink-mute">
+                    <span>{words.toLocaleString()} words</span>
+                    <span>{Math.max(1, Math.ceil(words / 230))} min read</span>
+                    <span>{output.length.toLocaleString()} chars</span>
+                    {activeResult?.model && <span>{activeResult.model}</span>}
+                    {runContext?.imageReadBy && <span>image read with {runContext.imageReadBy}</span>}
+                  </p>
+                </header>
+                <textarea
+                  ref={editorRef}
+                  value={output}
+                  onChange={(e) => {
+                    if (!currentTab) return
+                    setLocalResults((prev) => ({
+                      ...prev,
+                      [currentTab]: { ...activeResult!, output: e.target.value },
+                    }))
+                  }}
+                  aria-label={`${currentTab} draft`}
+                  className="block w-full resize-none overflow-hidden bg-transparent text-[16.5px] leading-[1.8] text-ink/90 caret-ink outline-none selection:bg-matcha/60"
+                  placeholder="Generated content will appear here…"
+                  spellCheck
+                />
+              </article>
+            ) : (
+              <MockupView format={currentTab!} content={output} />
+            )}
+          </div>
+
+          {/* Floating refine composer */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-paper via-paper/90 to-transparent px-4 pb-6 pt-16 sm:px-8">
+            <form
+              onSubmit={(e) => { e.preventDefault(); void handleRegenerate() }}
+              className="sk-float pointer-events-auto mx-auto flex max-w-[900px] items-center gap-2 rounded-2xl bg-white p-2 transition-shadow focus-within:shadow-[0_0_0_1px_rgba(15,16,15,0.3),0_0_0_5px_rgba(212,237,100,0.35),0_12px_40px_-14px_rgba(15,16,15,0.22)]"
+            >
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[15px] bg-paper-deep text-ink-soft">
+                <WandSparkles className="h-[18px] w-[18px]" />
+              </span>
+              <input
+                type="text"
+                value={refinement}
+                onChange={(e) => setRefinement(e.target.value)}
+                // The local engine writes one thing at a time: refining waits for the run to finish.
+                disabled={streaming}
+                placeholder={streaming ? 'Refine once the on-device engine finishes writing…' : `Refine this ${SHORT_LABEL[currentTab!] ?? currentTab}: “shorter”, “add a risk table”…`}
+                className="min-w-0 flex-1 bg-transparent text-[14.5px] text-ink outline-none placeholder:text-ink-mute disabled:cursor-not-allowed"
+              />
+              <span className="hidden font-mono text-[10.5px] text-ink-mute md:block">this draft only</span>
+              {regenerating ? (
+                // While refining, the same spot stops it; the spinner stays so it still reads as working.
+                <button
+                  type="button"
+                  onClick={() => refineAbort.current?.abort()}
+                  aria-label="Stop refining"
+                  title="Stop refining"
+                  className="flex h-11 shrink-0 items-center gap-2 rounded-[15px] bg-white px-4 text-[13.5px] font-semibold text-red-700 ring-1 ring-inset ring-red-200 transition-colors hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+                >
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-red-200 border-t-red-700" aria-hidden />
+                  <span className="hidden sm:inline">Stop</span>
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={!refinement.trim() || streaming}
+                  className="flex h-11 shrink-0 items-center gap-2 rounded-[15px] bg-ink px-5 text-[13.5px] font-semibold text-paper transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-matcha active:translate-y-0 disabled:translate-y-0 disabled:opacity-40"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                  <span className="hidden sm:inline">Refine</span>
+                </button>
+              )}
+            </form>
+          </div>
+        </div>
+      </div>
+      )}
+    </div>
+  )
+}
+
+/**
+ * A format being added to the canvas: a sheet that says it's being written, in place of the draft.
+ * On the local engine (`queue`) it is waiting its turn, or first in line while the model loads.
+ */
+function PendingDraft({ format, queue }: { format: OutputFormat; queue?: 'loading' | 'queued' }) {
+  return (
+    <div className="min-h-0 flex-1 overflow-y-auto bg-paper px-4 pb-16 pt-8 sm:px-8" aria-live="polite">
+      <div className="sk-sheet mx-auto max-w-[900px] rounded-2xl bg-white px-8 py-10 sm:px-14 sm:py-14">
+        <p className="text-[12.5px] font-semibold text-ink-mute">{queue === 'queued' ? 'Queued' : queue === 'loading' ? 'Starts next' : 'Writing…'}</p>
+        <h2 className="mt-3 font-display text-[clamp(1.9rem,3vw,2.6rem)] font-bold text-ink">{format}</h2>
+        <div className="mt-8 space-y-3" aria-hidden>
+          {['w-11/12', 'w-full', 'w-4/5', 'w-full', 'w-2/3'].map((w, i) => (
+            <span key={i} className={`sk-skeleton block h-2.5 rounded-full ${w}`} />
+          ))}
+        </div>
+        <p className="mt-8 text-[13px] text-ink-mute">
+          {queue === 'queued'
+            ? 'The on-device engine writes one draft at a time so it stays within your GPU’s memory. This one starts when the draft ahead of it is done.'
+            : queue === 'loading'
+              ? 'The model is loading into memory. This draft starts streaming as soon as it’s ready.'
+              : 'The other drafts are ready to read, edit and refine while this one is written.'}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+/** A draft streaming from the local engine: shown as it's written, read-only until it's done. */
+function LiveDraft({ format, content, refining }: { format: OutputFormat; content: string; refining: boolean }) {
+  return (
+    <article aria-busy="true" className="sk-sheet mx-auto max-w-[900px] rounded-2xl bg-white px-8 py-10 sm:px-14 sm:py-14">
+      <p className="flex items-center gap-2 text-[12.5px] font-semibold text-ink-mute">
+        <span className="h-3 w-3 animate-spin rounded-full border-[1.5px] border-ink/15 border-t-ink/70" aria-hidden />
+        {refining ? 'Rewriting on this device…' : 'Writing on this device…'}
+      </p>
+      <h2 className="mt-3 font-display text-[clamp(1.9rem,3vw,2.6rem)] font-bold text-ink">{format}</h2>
+      <div className="sk-live mt-6">
+        <RichText text={content} />
+      </div>
+    </article>
+  )
+}
+
+function CanvasHeader({ title, status, action }: { title: string; status: string; action?: React.ReactNode }) {
+  return (
+    <div className="flex shrink-0 flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-hair px-5 py-3 sm:px-8">
+      <div className="flex min-w-0 flex-wrap items-baseline gap-x-4 gap-y-0.5">
+        <h2 className="font-display text-[18px] font-bold text-ink">{title}</h2>
+        <p className="text-[12.5px] text-ink-mute">{status}</p>
+      </div>
+      {action}
+    </div>
+  )
+}
+
+function IconButton({ label, onClick, active, className = '', children }: {
+  label: string
+  onClick: () => void
+  active?: boolean
+  className?: string
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={label}
+      aria-label={label}
+      className={`flex h-10 w-10 items-center justify-center rounded-full ring-1 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25 active:translate-y-0 ${
+        active ? 'bg-ink text-paper ring-ink' : 'bg-white text-ink-soft ring-hair hover:text-ink hover:ring-ink/20'
+      } ${className}`}
+    >
+      {children}
+    </button>
+  )
+}
+
+/** Download button with a small menu of file types; closes on pick, outside click or Escape. */
+function DownloadMenu({ options, onPick, disabled }: {
+  options: { kind: ExportKind; label: string; hint: string }[]
+  onPick: (kind: ExportKind) => Promise<void>
+  disabled?: boolean
+}) {
+  const [open, setOpen] = useState(false)
+  const [busy, setBusy] = useState<ExportKind | null>(null)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onDown = (e: MouseEvent) => { if (!ref.current?.contains(e.target as Node)) setOpen(false) }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open])
+
+  const pick = async (kind: ExportKind) => {
+    setBusy(kind)
+    await onPick(kind)
+    setBusy(null)
+    setOpen(false)
+  }
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        disabled={disabled}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        title="Download"
+        aria-label="Download"
+        className={`flex h-10 w-10 items-center justify-center rounded-full ring-1 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/25 active:translate-y-0 disabled:pointer-events-none disabled:opacity-40 ${
+          open ? 'bg-ink text-paper ring-ink' : 'bg-white text-ink-soft ring-hair hover:text-ink hover:ring-ink/20'
+        }`}
+      >
+        <Download className="h-4 w-4" />
+      </button>
+
+      {open && (
+        <div role="menu" aria-label="Download as" className="sk-float sk-pop absolute right-0 top-full z-30 mt-2 w-56 overflow-hidden rounded-xl bg-white p-1.5">
+          <p className="px-2.5 pb-1.5 pt-1 text-[11.5px] font-medium text-ink-mute">Download as</p>
+          {options.map((o) => (
+            <button
+              key={o.kind}
+              role="menuitem"
+              type="button"
+              onClick={() => void pick(o.kind)}
+              disabled={busy !== null}
+              className="flex w-full items-center justify-between gap-3 rounded-lg px-2.5 py-2 text-left text-[13.5px] font-medium text-ink transition-colors hover:bg-paper-deep focus-visible:bg-paper-deep focus-visible:outline-none disabled:opacity-60"
+            >
+              {o.label}
+              {busy === o.kind
+                ? <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-ink/20 border-t-ink" aria-label="Preparing" />
+                : <span className="font-mono text-[11.5px] text-ink-mute">{o.hint}</span>}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ─── Mockup renderer ─────────────────────────────────────────────────────── */
+
+function MockupView({ format, content }: { format: OutputFormat; content: string }) {
+  if (!content) return <p className="text-center text-[13px] text-ink-mute">No content yet.</p>
+
+  if (format === 'LinkedIn Post') {
+    return (
+      <div className="sk-sheet mx-auto max-w-[560px] rounded-2xl bg-white p-6">
+        <div className="flex items-center gap-3">
+          <BrandMark className="h-11 w-11 rounded-full" />
+          <div>
+            <p className="text-[14px] font-semibold text-ink">Sankshep.ai</p>
+            <p className="text-[11.5px] text-ink-mute">AI Content Platform · Just now</p>
+          </div>
+        </div>
+        <div className="mt-2 [&_p]:text-[14.5px] [&_p]:leading-[1.7]"><RichText text={content} /></div>
+      </div>
+    )
+  }
+
+  if (format === 'Twitter/X Post') {
+    const tweets = content.split(/\n\d+\//).filter(Boolean)
+    return (
+      <div className="mx-auto max-w-[520px] space-y-3">
+        {tweets.map((tw, i) => (
+          <div key={i} className="sk-sheet rounded-2xl bg-white p-5">
+            <div className="flex items-center gap-2.5">
+              <BrandMark className="h-9 w-9 rounded-full" />
+              <div>
+                <p className="text-[13.5px] font-semibold text-ink">Sankshep.ai</p>
+                <p className="font-mono text-[10.5px] text-ink-mute">@sankshepai</p>
+              </div>
+              <span className="ml-auto font-mono text-[10.5px] text-ink-mute">{i + 1}/{tweets.length}</span>
+            </div>
+            <p className="mt-3 text-[14.5px] leading-[1.65] text-ink">{tw.trim()}</p>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  if (format === 'Executive Summary') {
+    return (
+      <div className="sk-sheet mx-auto max-w-[900px] rounded-2xl bg-white px-8 py-10 sm:px-14 sm:py-14">
+        <div className="mb-7 border-b-2 border-ink pb-5">
+          <p className="text-[12.5px] font-semibold text-ink-mute">Executive brief</p>
+          <h2 className="mt-2 font-display text-[30px] text-ink">Executive Summary</h2>
+        </div>
+        <RichText text={content.replace(/^\s*[#*\s]*executive summary\**\s*\n/i, '')} />
+      </div>
+    )
+  }
+
+  // Default: clean document
+  return (
+    <article className="sk-sheet mx-auto max-w-[900px] rounded-2xl bg-white px-8 py-10 sm:px-14 sm:py-14">
+      <span className="rounded-md bg-matcha/40 px-2 py-1 text-[12.5px] font-semibold text-ink">{format}</span>
+      <div className="mt-6"><RichText text={content} /></div>
+    </article>
+  )
+}
+
+/* ─── Model comparison ────────────────────────────────────────────────────── */
+
+/** One column per model for the chosen format, so the same brief can be read across models. */
+function CompareView({ runs, format }: { runs: ModelRun[]; format: OutputFormat }) {
+  return (
+    <div className="min-h-0 flex-1 overflow-auto bg-paper">
+      <div className="grid gap-4 p-4 sm:p-6 md:auto-cols-[minmax(300px,1fr)] md:grid-flow-col">
+        {runs.map((run, i) => (
+          <CompareColumn key={`${run.ref.provider}:${run.ref.model}`} run={run} format={format} letter={String.fromCharCode(65 + i)} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function CompareColumn({ run, format, letter }: { run: ModelRun; format: OutputFormat; letter: string }) {
+  const [copied, setCopied] = useState(false)
+  const result = run.results[format]
+  const text = result?.status === 'success' ? result.output : ''
+  const words = countWords(text)
+
+  const copy = async () => {
+    if (!text) return
+    try {
+      await navigator.clipboard.writeText(text)
+    } catch {
+      return // The clipboard refused; the button simply doesn't turn into "Copied".
+    }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <article aria-label={`Model ${letter}: ${run.ref.model}`} className="sk-sheet flex min-w-0 flex-col self-start rounded-2xl bg-white">
+      <header className="flex items-start gap-3 border-b border-hair px-5 py-4">
+        <StepNumber n={letter} />
+        <div className="min-w-0 flex-1">
+          <p className="text-[12.5px] font-semibold text-ink-mute">{providerInfo(run.ref.provider).name}</p>
+          <p className="truncate font-mono text-[13px] text-ink" title={result?.model ?? run.ref.model}>{result?.model ?? run.ref.model}</p>
+        </div>
+        <IconButton label={copied ? 'Copied' : `Copy model ${letter} draft`} onClick={copy}>
+          {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+        </IconButton>
+      </header>
+
+      {!result ? (
+        <p className="px-5 py-8 text-[13.5px] text-ink-mute">This model wasn't asked for this format.</p>
+      ) : result.status === 'error' ? (
+        <div className="px-5 py-8">
+          <p className="flex items-center gap-2 text-[14px] font-semibold text-red-700">
+            <CircleAlert className="h-4 w-4" /> This model's draft failed
+          </p>
+          <p className="mt-2 font-mono text-[12px] leading-relaxed text-red-800">{result.error}</p>
+        </div>
+      ) : (
+        <>
+          <p className="flex gap-4 border-b border-hair px-5 py-2.5 font-mono text-[11.5px] text-ink-mute">
+            <span>{words.toLocaleString()} words</span>
+            <span>{text.length.toLocaleString()} chars</span>
+          </p>
+          <div className="px-5 py-5 [&_p]:text-[14.5px] [&_p]:leading-[1.7]">
+            <RichText text={text} />
+          </div>
+        </>
+      )}
+    </article>
+  )
+}
