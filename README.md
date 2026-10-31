@@ -4,16 +4,18 @@
 
 # Sankshep.ai
 
-**One source in. Every format out.**
+**One official document in. Every citizen-ready format out.**
 
-A generative AI workspace that turns a single report, article or advisory into executive summaries, social posts, slide decks, video scripts and translations, all drafted in parallel, then refined in plain language. For documents that can't leave the building, **Private mode** does the whole job on your own computer.
+A generative AI workspace that turns one circular, advisory, scheme guideline or report into plain summaries, advisories, slide decks, video scripts, social posts and translations in six Indian languages, all drafted in parallel and then refined in plain words. For documents that can't leave the office, **Private mode** does the whole job on your own computer.
 
 *Seva First Innovation Challenge (SFIC) · Track 2: Open Innovation · Official Team Code: TM003665*
 
-**Live: [sankshep-ai.vercel.app](https://sankshep-ai.vercel.app)**
+**Live: [sankshep-sfic.vercel.app](https://sankshep-sfic.vercel.app)**
 
-<a href="Sankshep-System-Architecture.pdf"><img src="photos/buttons/system-architecture.svg" width="400" alt="System Architecture (PDF)" /></a>
-<a href="https://sankshep-ai.vercel.app"><img src="photos/buttons/live-app.svg" width="400" alt="Live App" /></a>
+<!-- Synopsis PPT and System Architecture: replace href="#" with the file links once the documents are added. -->
+<a href="#"><img src="photos/buttons/synopsis-ppt.svg" width="300" alt="Synopsis PPT (link coming soon)" /></a>
+<a href="#"><img src="photos/buttons/system-architecture.svg" width="300" alt="System Architecture (link coming soon)" /></a>
+<a href="https://sankshep-sfic.vercel.app"><img src="photos/buttons/live-app.svg" width="300" alt="Live App" /></a>
 
 [![React](https://img.shields.io/badge/React-19-0f100f?logo=react&logoColor=d4ed64)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-0f100f?logo=typescript&logoColor=d4ed64)](https://www.typescriptlang.org)
@@ -22,29 +24,58 @@ A generative AI workspace that turns a single report, article or advisory into e
 [![Supabase](https://img.shields.io/badge/Supabase-Auth_%2B_Postgres-0f100f?logo=supabase&logoColor=d4ed64)](https://supabase.com)
 [![Vercel](https://img.shields.io/badge/Vercel-Functions-0f100f?logo=vercel&logoColor=d4ed64)](https://vercel.com)
 
-[Project documents](#project-documents) · [What it does](#what-it-does) · [Private mode](#private-mode-ai-that-never-leaves-your-computer) · [Features](#features) · [Quick start](#quick-start) · [How it works](#how-it-works) · [Architecture](#architecture) · [Deploy](#deploy) · [Team](#team)
+[The problem](#the-problem-we-are-solving) · [Project documents](#project-documents) · [What it does](#what-it-does) · [Private mode](#private-mode-ai-that-never-leaves-your-computer) · [Features](#features) · [Quick start](#quick-start) · [How it works](#how-it-works) · [Architecture](#architecture) · [Deploy](#deploy) · [Team](#team)
 
 </div>
 
 ---
 
+## The problem we are solving
+
+| | |
+|---|---|
+| **Challenge** | Seva First Innovation Challenge (SFIC) |
+| **Track** | Track 2: Bring Your Problem Statement (Open Innovation) |
+| **Official Team Code** | TM003665 |
+| **Problem statement** | Turning Government and Public-Service Information into Citizen-Ready Communication, in Every Format and Language |
+| **Domain** | Generative AI and NLP (LLMs), multilingual AI, on-device (edge) AI, web technologies, GovTech |
+
+**The context.** Government departments, health systems and social organisations produce a steady stream of important information: scheme guidelines, health advisories, circulars, policy documents, safety alerts and reports. It only creates value when it reaches the people it is meant for, in a form they can understand and act on. Today that last step is manual. The same circular is rewritten by hand into a summary for officials, a simple explanation for citizens, a social post, a meeting deck and a video script, often with translation on top. Small teams, district offices and NGOs rarely have communication staff, so information goes out late, in English only, or in official language many citizens can't follow.
+
+**The root cause.** Turning one source document into many audience-ready formats and languages is entirely manual, depends on scarce writing and translation skills, and has no tool that is simple, multi-format and safe for sensitive documents.
+
+**The pain points.**
+
+1. **Repetitive effort:** the same content is rewritten again and again for different audiences and platforms.
+2. **Language barrier:** official content is mostly in English or formal language, while citizens need Hindi, regional languages and plain words.
+3. **Delays:** time-critical advisories (health, disaster, cyber safety) lose value when communication is slow.
+4. **Inconsistency:** different staff rewrite the same facts differently, so messages drift or carry errors.
+5. **Skill gaps:** small offices and NGOs lack trained communication and design staff.
+6. **Data privacy:** confidential documents can't be pasted into public AI tools, so those teams get no AI help at all.
+
+**Who it is for.**
+
+- **Primary users:** communication and IEC officers in departments and district administrations; health workers and PHC staff; panchayat and municipal staff; NGOs and community organisations; disaster management and cyber-safety teams.
+- **End beneficiaries:** citizens, especially those who don't read English or find official language hard to follow.
+- **Secondary stakeholders:** departments that handle confidential documents and can't send them to outside AI services.
+
+**What we deliver.** A working web prototype: bring any source, pick from 10 formats (or describe your own), set the audience and tone, and get every draft at once. Drafts are refined in plain words, slides download as PowerPoint, text translates into Hindi, Gujarati, Marathi, Bengali, Telugu and Tamil, and Private mode keeps confidential files on the user's own computer. Accounts, a History of past work and an admin panel support oversight.
+
+**The impact.** Schemes, health advisories and safety alerts reach citizens faster, in their own language and in simple words. Teams turn hours of rewriting into minutes, every format comes from the same source, small offices can produce professional material, and sensitive documents can use AI safely. Free and low-cost models on ordinary hardware keep it affordable at district and panchayat level.
+
 ## Project documents
 
-> [!IMPORTANT]
-> **System Architecture document: [Sankshep-System-Architecture.pdf](Sankshep-System-Architecture.pdf)** (2 pages). It shows the full pipeline, from sign-in to History, and the eight architectural layers. Click the link to open it in GitHub's PDF viewer.
-
-Seva First Innovation Challenge (SFIC) · Track 2: Open Innovation · Official Team Code **TM003665**:
-
-| Deliverable | Where to find it |
+| Document | Where to find it |
 |---|---|
+| **Synopsis PPT** | Link coming soon (the **Synopsis PPT** card above) |
+| **System architecture** | Link coming soon (the **Architecture** card above); a text version is in [`architecture_slide.md`](architecture_slide.md) |
+| **Live prototype** | [sankshep-sfic.vercel.app](https://sankshep-sfic.vercel.app) (use **Continue with the demo account** on the sign-in page) |
 | Source code | This repository (the app is in [`main/`](main)) |
-| README with setup instructions | This file: see [Quick start](#quick-start) |
-| **Architecture document** | **[Sankshep-System-Architecture.pdf](Sankshep-System-Architecture.pdf)**; text version in [`architecture_slide.md`](architecture_slide.md) |
-| Live prototype | [sankshep-ai.vercel.app](https://sankshep-ai.vercel.app) (use **Continue with the demo account** on the sign-in page) |
+| Setup instructions | This file: see [Quick start](#quick-start) |
 
 ## What it does
 
-Organisations spend hours turning the same source material into briefs, posts, decks and scripts. Sankshep (संक्षेप, Hindi for *"in brief"*) does that step for them:
+Departments, health teams and NGOs spend hours turning the same circular or report into briefs, posts, decks and scripts. Sankshep (संक्षेप, Hindi for *"in brief"*) does that step for them:
 
 1. **Bring a source.** Upload a PDF, Word (.docx), TXT, Markdown, CSV or JSON file or an image, paste a link, or paste text.
 2. **Choose what you need.** Pick any of 10 formats, or describe your own; set the tone, the audience who will read the result, and the AI model.
@@ -87,11 +118,11 @@ One switch at the top of the workspace sidebar chooses the mode:
 3. **Only for the deployed site** (not needed on `localhost`): let the site reach Ollama, then quit and reopen Ollama.
    ```bash
    # Windows (PowerShell)
-   setx OLLAMA_ORIGINS "https://sankshep-ai.vercel.app"
+   setx OLLAMA_ORIGINS "https://sankshep-sfic.vercel.app"
    # macOS
-   launchctl setenv OLLAMA_ORIGINS "https://sankshep-ai.vercel.app"
+   launchctl setenv OLLAMA_ORIGINS "https://sankshep-sfic.vercel.app"
    # Linux (run instead of the service)
-   OLLAMA_ORIGINS="https://sankshep-ai.vercel.app" ollama serve
+   OLLAMA_ORIGINS="https://sankshep-sfic.vercel.app" ollama serve
    ```
    Naming the site, rather than `*`, keeps other websites you visit from using your local models.
 
@@ -123,15 +154,15 @@ Private mode works in Chrome, Edge and Firefox. Safari doesn't let secure websit
 | **Install as an app** | Installable on Android, iPhone, iPad, Mac and Windows from the website itself (a PWA). The landing page shows **Download for Android** or **Download for iOS** on those devices. On phones and tablets, the three-line menu in the top navigation reaches every page. |
 | **Accounts & admin** | Email sign-up with no verification step, a shared demo account, self-service account deletion, and an admin panel for all users and activity. The admin can **disable** an account (it keeps its data but is signed out everywhere and can't sign in; anyone trying is told it's disabled and to contact the admin), **enable** it again, or delete it. |
 
-The public [`/features`](https://sankshep-ai.vercel.app/features) page walks through the main features with interactive previews.
+The public [`/features`](https://sankshep-sfic.vercel.app/features) page walks through the main features with interactive previews.
 
 ## Quick start
 
 **You need:** [Node.js 22](https://nodejs.org) and Git.
 
 ```bash
-git clone https://github.com/SiddharthDevmurari/SankShep.ai.git
-cd SankShep.ai/main
+git clone https://github.com/SiddharthDevmurari/SankShep.ai-SFIC.git
+cd SankShep.ai-SFIC/main
 npm install
 npm run dev
 ```
@@ -207,7 +238,7 @@ Sankshep is an installable web app (PWA): no app store, and every deploy updates
 
 | Device | How |
 |---|---|
-| **Android** | Open [sankshep-ai.vercel.app](https://sankshep-ai.vercel.app) in Chrome and tap **Download for Android** on the landing page, then **Install**. (Or browser menu ⋮ → **Install app**.) |
+| **Android** | Open [sankshep-sfic.vercel.app](https://sankshep-sfic.vercel.app) in Chrome and tap **Download for Android** on the landing page, then **Install**. (Or browser menu ⋮ → **Install app**.) |
 | **iPhone / iPad** | Open the site in Safari, tap **Download for iOS** for the steps: **Share** → **Add to Home Screen** → **Add**. |
 | **Mac** | Safari: **File → Add to Dock**. Chrome or Edge: the install icon at the right of the address bar. |
 | **Windows** | Chrome or Edge: the install icon at the right of the address bar. |
@@ -301,7 +332,7 @@ The full detail is on the in-app [Privacy Policy](main/src/pages/legal/PrivacyPo
 
 ## Architecture
 
-> 📄 The full system architecture, with every pipeline step and layer, is in **[Sankshep-System-Architecture.pdf](Sankshep-System-Architecture.pdf)**.
+> The full system architecture document will be linked from the **Architecture** card at the top of this page. Until then, a text version is in [`architecture_slide.md`](architecture_slide.md).
 
 The React app talks to Supabase (auth and data) directly. AI requests go either straight to the provider (user's key) or through one small server function, [`api/chat.ts`](main/api/chat.ts), which holds the shared keys. In development, Vite serves the same function (see `vite.config.ts`). In Private mode the only AI request is from the browser to the Ollama on the same computer.
 
@@ -415,19 +446,19 @@ main/
 
 ## Database setup
 
-*One-time, for the project owner only. Anyone who just clones and runs the app can skip this.*
+*One-time, for each Supabase project you connect the app to.*
 
-1. Open the [Supabase SQL Editor](https://supabase.com/dashboard/project/onhqpaqqwsdnuxwkxksh/sql/new), paste [`main/supabase/schema.sql`](main/supabase/schema.sql), and run it. This creates `profiles` and `activity_logs`, the row-level security policies, the admin and deletion functions, and the shared demo account `demo@gmail.com` / `Demo@1234`. It is safe to run again.
+1. Open your Supabase project's **SQL Editor**, paste [`main/supabase/schema.sql`](main/supabase/schema.sql), and run it. This creates `profiles` and `activity_logs`, the row-level security policies, the admin and deletion functions, and the shared demo account `demo@gmail.com` / `Demo@1234`. It is safe to run again.
    - Section 10 adds the `models` and `input_words` columns used by History. It's optional: without them the app keeps that data inside the existing `outputs` column.
    - Section 11 adds disabling and enabling accounts from the Admin panel. Databases set up before it need the file run once more; until then the Disable button explains that.
 2. Under **Authentication → Sign In / Providers → Email**, turn **Confirm email** off and save. Accounts are created and signed in immediately, and no emails are sent.
-3. To create the admin, paste [`main/supabase/create_admin.sql`](main/supabase/create_admin.sql) into the SQL Editor, replace `CHANGE_ME` with a password of 8+ characters, and run it. Re-run it any time to reset the password. `admin@gmail.com` gets the admin role automatically.
+3. To create the admin, paste [`main/supabase/create_admin.sql`](main/supabase/create_admin.sql) into the SQL Editor, replace `CHANGE_ME` with a strong password, and run it. Do this in the SQL Editor only, and never commit the password. Re-run it any time to reset the password. `admin@gmail.com` gets the admin role automatically.
 
 Users can delete their own account from the account menu in the workspace; the admin can delete any account from the Admin panel, or disable it instead and enable it again later. The demo and admin accounts can't be deleted, and the admin account can't be disabled. `reset_accounts.sql` re-enables the admin and demo accounts if either was disabled.
 
 ## Deploy
 
-1. Sign in at [vercel.com](https://vercel.com/login) with GitHub, then import the repo: <https://vercel.com/new/import?s=https://github.com/SiddharthDevmurari/SankShep.ai>.
+1. Sign in at [vercel.com](https://vercel.com/login) with GitHub, then import the repo: <https://vercel.com/new/import?s=https://github.com/SiddharthDevmurari/SankShep.ai-SFIC>.
 2. On **Configure Project**, set **Root Directory** to `main`. The framework is detected as Vite, and `vercel.json` handles the rest.
 3. Under **Environment Variables**, add `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `GROQ_API_KEYS`, `GEMINI_API_KEYS` and `OPENROUTER_API_KEYS` (same values as your `.env.local`), then click **Deploy**.
 4. From then on, every push to `main` deploys automatically. To change keys later: **Project → Settings → Environment Variables**, then **Deployments → ⋯ → Redeploy**.
