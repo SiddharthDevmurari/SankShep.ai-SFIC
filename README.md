@@ -6,7 +6,7 @@
 
 **One official document in. Every citizen-ready format out.**
 
-A generative AI workspace that turns one circular, advisory, scheme guideline or report into plain summaries, advisories, slide decks, video scripts, social posts and translations into English and 12 Indian languages, all drafted in parallel and then refined in plain words. For documents that can't leave the office, **Private mode** does the whole job on your own computer.
+A generative AI workspace that turns one circular, advisory, scheme guideline or report into plain summaries, advisories, news articles, slide decks, video scripts, social posts and translations into English and 12 Indian languages, all drafted in parallel and then refined in plain words. For documents that can't leave the office, **Private mode** does the whole job on your own computer.
 
 *Seva First Innovation Challenge (SFIC) · Track 2: Open Innovation · Official Team Code: TM003665*
 
@@ -149,7 +149,7 @@ Private mode works in Chrome, Edge and Firefox. Safari doesn't let secure websit
 | **Image reading** | Images and scanned pages are read by a Gemini or OpenRouter vision model, or by **on-device OCR** (Tesseract.js) if no vision model is available. In Private mode they are always read by on-device OCR. |
 | **Model comparison** | Run the same brief through up to **3 models** and read the drafts side by side, each with word counts and one-click copy. |
 | **Audience targeting** | The audience is who will read, watch or receive the final content (choosing HR/Sales means the drafts are written to be handed to HR and sales staff). Four presets, or describe your own and **save it to your account** for next time. |
-| **Full-length translation** | Translation covers the whole source, line by line, in chunks, however long the document is. |
+| **Full-length translation** | Translation covers the whole source, line by line, in chunks, however long the document is, into any of 13 languages: English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia, Malayalam, Punjabi or Assamese. Each is written in its own script, and numbers, dates and helpline numbers stay in ordinary digits. |
 | **History & Analytics** | Every draft is logged with its format, provider, model and word counts. Filter your history by format and see usage at a glance. |
 | **Install as an app** | Installable on Android, iPhone, iPad, Mac and Windows from the website itself (a PWA). The landing page shows **Download for Android** or **Download for iOS** on those devices. On phones and tablets, the three-line menu in the top navigation reaches every page. |
 | **Website in 13 languages** | The public pages (landing, features, how it works, about, contact, sign-in and legal) can be read in English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu (right to left), Kannada, Odia, Malayalam, Punjabi and Assamese, from the language menu in the top bar. English and Hindi are written by the team; the other eleven were machine-translated from the English with Gemini and are downloaded only when chosen. The workspace itself stays in English. |
@@ -411,7 +411,10 @@ main/
 │   │   ├── audiences.ts         # Custom audience profiles saved to the account
 │   │   ├── activity.ts          # Activity logging and History/Analytics queries
 │   │   ├── exporters.ts         # Markdown, text and PowerPoint export
+│   │   ├── languages.ts         # The 13 languages: site language menu and translation targets
 │   │   └── supabase.ts          # Central Supabase client
+│   ├── i18n.tsx                 # Site language: loads a language's text only when it is picked
+│   ├── locales/<code>/          # The public pages in 11 more languages (bn, mr, te, ta, gu, ur, kn, or, ml, pa, as)
 │   ├── contexts/AuthContext.tsx # Session, sign-in/up, sign-out, account deletion
 │   ├── components/
 │   │   ├── ProtectedRoute.tsx   # Auth guard for /workspace/*
@@ -430,6 +433,7 @@ main/
 │   │   ├── LeftPanel.tsx        # Settings sidebar: processing mode, source, formats, voice, audience, engine
 │   │   ├── LocalEngine.tsx      # Cloud / Private switch, local engine status, hardware check and setup guide
 │   │   ├── RightPanel.tsx       # Output canvas: drafts, comparison, refine, export
+│   │   ├── NewsArticle.tsx      # News Article preview, laid out like a newspaper page
 │   │   ├── KeyConsentDialog.tsx # The "use Sankshep's key instead?" prompt
 │   │   ├── DuplicateFormatsDialog.tsx # The "only new formats / regenerate all" prompt
 │   │   ├── HistoryView.tsx
@@ -444,6 +448,8 @@ main/
 ├── vite.config.ts               # Also serves /api/chat during npm run dev
 └── vercel.json                  # Build, /api/chat timeout, SPA rewrites
 ```
+
+**Changing the website's text.** Each public page keeps its English and Hindi text next to its code (for example `pages/featuresCopy.ts`). The other eleven languages live in `src/locales/<code>/<page>.tsx`. When you add or rename a piece of text, `npx tsc --noEmit` points to every language file that is missing it; when you only reword English, update the same text in those files too, because nothing flags a translation that is out of date.
 
 ## Database setup
 
