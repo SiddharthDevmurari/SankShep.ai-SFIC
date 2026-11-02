@@ -12,9 +12,8 @@ A generative AI workspace that turns one circular, advisory, scheme guideline or
 
 **Live: [sankshep-sfic.vercel.app](https://sankshep-sfic.vercel.app)**
 
-<!-- Synopsis PPT and System Architecture: replace href="#" with the file links once the documents are added. -->
-<a href="#"><img src="photos/buttons/synopsis-ppt.svg" width="300" alt="Synopsis PPT (link coming soon)" /></a>
-<a href="#"><img src="photos/buttons/system-architecture.svg" width="300" alt="System Architecture (link coming soon)" /></a>
+<a href="SFIC%20Synopsis%20PPT%20final.pdf"><img src="photos/buttons/synopsis-ppt.svg" width="300" alt="Synopsis PPT (PDF)" /></a>
+<a href="SankShep.ai%20SFIC%20architecture%20file.pdf"><img src="photos/buttons/system-architecture.svg" width="300" alt="System Architecture (PDF)" /></a>
 <a href="https://sankshep-sfic.vercel.app"><img src="photos/buttons/live-app.svg" width="300" alt="Live App" /></a>
 
 [![React](https://img.shields.io/badge/React-19-0f100f?logo=react&logoColor=d4ed64)](https://react.dev)
@@ -67,8 +66,8 @@ A generative AI workspace that turns one circular, advisory, scheme guideline or
 
 | Document | Where to find it |
 |---|---|
-| **Synopsis PPT** | Link coming soon (the **Synopsis PPT** card above) |
-| **System architecture** | Link coming soon (the **Architecture** card above); a text version is in [`architecture_slide.md`](architecture_slide.md) |
+| **Synopsis PPT** | [SFIC Synopsis PPT final (PDF)](SFIC%20Synopsis%20PPT%20final.pdf) (also the **Synopsis PPT** card above) |
+| **System architecture** | [SankShep.ai SFIC architecture file (PDF)](SankShep.ai%20SFIC%20architecture%20file.pdf) (also the **Architecture** card above); a text version is in [`architecture_slide.md`](architecture_slide.md) |
 | **Live prototype** | [sankshep-sfic.vercel.app](https://sankshep-sfic.vercel.app) (use **Continue with the demo account** on the sign-in page) |
 | Source code | This repository (the app is in [`main/`](main)) |
 | Setup instructions | This file: see [Quick start](#quick-start) |
@@ -333,7 +332,7 @@ The full detail is on the in-app [Privacy Policy](main/src/pages/legal/PrivacyPo
 
 ## Architecture
 
-> The full system architecture document will be linked from the **Architecture** card at the top of this page. Until then, a text version is in [`architecture_slide.md`](architecture_slide.md).
+> The full system architecture document is [SankShep.ai SFIC architecture file (PDF)](SankShep.ai%20SFIC%20architecture%20file.pdf), also linked from the **Architecture** card at the top of this page. A text version is in [`architecture_slide.md`](architecture_slide.md).
 
 The React app talks to Supabase (auth and data) directly. AI requests go either straight to the provider (user's key) or through one small server function, [`api/chat.ts`](main/api/chat.ts), which holds the shared keys. In development, Vite serves the same function (see `vite.config.ts`). In Private mode the only AI request is from the browser to the Ollama on the same computer.
 

@@ -24,8 +24,8 @@ Everything about our Seva First Innovation Challenge entry in one place: the pro
 |---|---|
 | Live app | https://sankshep-sfic.vercel.app |
 | GitHub repo | https://github.com/SiddharthDevmurari/SankShep.ai-SFIC |
-| Synopsis PPT | Not added yet |
-| System architecture | Not added yet (text version in `architecture_slide.md`) |
+| Synopsis PPT | `SFIC Synopsis PPT final.pdf` in the repo root, linked from the README card |
+| System architecture | `SankShep.ai SFIC architecture file.pdf` in the repo root, linked from the README card (text version in `architecture_slide.md`) |
 | Demo login | demo@gmail.com / Demo@1234 (or "Continue with the demo account" on the sign-in page) |
 
 ---
@@ -181,6 +181,6 @@ This project is separate from the original Sankshep.ai (sankshep-ai.vercel.app).
 
 ## 8. Still to do
 
-- [ ] Add the Synopsis PPT and link it from the README card.
-- [ ] Add the System Architecture file and link it from the README card.
+- [x] Add the Synopsis PPT and link it from the README card.
+- [x] Add the System Architecture file and link it from the README card.
 - [ ] Change the admin password in Supabase (run `main/supabase/create_admin.sql` in the SQL Editor with a new password in place of `CHANGE_ME`).
