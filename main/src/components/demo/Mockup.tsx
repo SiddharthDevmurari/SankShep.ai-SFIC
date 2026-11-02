@@ -9,8 +9,9 @@ import {
 } from 'lucide-react'
 import { BrandMark } from '../site/SiteChrome'
 import { RichText } from '../../workspace/RichText'
+import { NewsArticle } from '../../workspace/NewsArticle'
 import {
-  AUDIENCES, DEMO_FORMATS, DRAFTS, EMPTY_QUOTE, FORMATS, LINKEDIN_REFINED, PROVIDERS, SOURCE_CHARS, SOURCE_KB,
+  AUDIENCES, DEMO_FORMATS, DRAFTS, EMPTY_QUOTE, FORMATS, NEWS_REFINED, PROVIDERS, SOURCE_CHARS, SOURCE_KB,
   SOURCE_NAME, SOURCE_WORDS, TONES, countWords, engineLabel, formatOf, formatStamp, readsImages, shortModel,
   type DraftId, type FormatId,
 } from './content'
@@ -29,7 +30,7 @@ function useTarget() {
   })
 }
 
-const draftText = (s: DemoState, id: DraftId = s.draft) => (id === 'linkedin' && s.refined ? LINKEDIN_REFINED : DRAFTS[id])
+const draftText = (s: DemoState, id: DraftId = s.draft) => (id === 'news' && s.refined ? NEWS_REFINED : DRAFTS[id])
 
 export function Mockup({ state, compact, scale }: { state: DemoState; compact: boolean; scale: number }) {
   return (
@@ -730,21 +731,8 @@ function EditorSheet() {
 function PreviewSheet() {
   const { s, compact } = useDemo()
   const text = draftText(s)
-  if (s.draft === 'linkedin') {
-    return (
-      <div className="sk-sheet mx-auto max-w-[560px] rounded-2xl bg-white p-6">
-        <div className="flex items-center gap-3">
-          <BrandMark className="h-11 w-11 rounded-full" />
-          <div>
-            <p className="text-[14px] font-semibold text-ink">Sankshep.ai</p>
-            <p className="text-[11.5px] text-ink-mute">AI Content Platform · Just now</p>
-          </div>
-        </div>
-        <div className="mt-2 [&_p]:text-[14.5px] [&_p]:leading-[1.7]"><RichText text={text} /></div>
-      </div>
-    )
-  }
   const pad = compact ? 'px-6 py-7' : 'px-14 py-12'
+  if (s.draft === 'news') return <NewsArticle text={text} className={pad} />
   if (s.draft === 'exec') {
     return (
       <div className={`sk-sheet mx-auto max-w-[900px] rounded-2xl bg-white ${pad}`}>
@@ -809,12 +797,12 @@ const COLUMNS = 'grid-cols-[minmax(0,2.3fr)_minmax(0,1.7fr)_minmax(0,1fr)_minmax
 
 interface Row { key: string; format: DraftId; detail: string; output: number; at: number }
 
-/** History lists one row per draft this demo wrote, newest first: the refined post, then the run. */
+/** History lists one row per draft this demo wrote, newest first: the refined article, then the run. */
 function historyRows(s: DemoState): Row[] {
   if (s.phase !== 'done' || s.generatedAt === null) return []
   const base = `Professional · ${SOURCE_NAME}`
   const rows: Row[] = DEMO_FORMATS.map((id) => ({ key: id, format: id, detail: base, output: countWords(DRAFTS[id]), at: s.generatedAt! }))
-  if (s.refined) rows.unshift({ key: 'linkedin-refined', format: 'linkedin', detail: `Refined · ${base}`, output: countWords(LINKEDIN_REFINED), at: s.generatedAt })
+  if (s.refined) rows.unshift({ key: 'news-refined', format: 'news', detail: `Refined · ${base}`, output: countWords(NEWS_REFINED), at: s.generatedAt })
   return rows
 }
 

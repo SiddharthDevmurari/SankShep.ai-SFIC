@@ -21,7 +21,7 @@ import { LOCAL_SOURCE_CHARS } from './local'
 
 export type OutputFormat =
   | 'Video'
-  | 'LinkedIn Post'
+  | 'News Article'
   | 'Twitter/X Post'
   | 'Advisory'
   | 'Infographic'
@@ -256,14 +256,33 @@ function buildPrompt(
 Source content:
 ${source}`,
     },
-    'LinkedIn Post': {
-      system: `You are a LinkedIn content strategist. ${toneInstr} Write engaging, algorithm-optimised LinkedIn posts.${schemaInstr}`,
-      user: `Write a LinkedIn post based on this content. Requirements:
-- Maximum 3000 characters
-- Open with a strong hook (no "I'm excited to share…")
-- Use short paragraphs and strategic line breaks
-- Include 3-5 relevant hashtags at the end
-- End with a clear call-to-action
+    'News Article': {
+      system: `You are a senior news reporter who writes for newspapers and government press bureaus. ${toneInstr} Write factual, neutral news articles in the inverted-pyramid style, so the most important facts come first.${schemaInstr}`,
+      user: `Write a news article based on this content, ready to send to newspapers and news portals.
+
+Rules:
+- Headline: up to 12 words, clear and factual, no clickbait
+- Sub-headline: one sentence that adds the key detail
+- Dateline: the place and date from the source; if the source has none, write [Place], [Date]
+- Lead paragraph: up to 50 words, answering who, what, when, where and why
+- Body: 4-6 short paragraphs, most important facts first
+- Keep every figure, date, amount, eligibility rule and deadline exactly as in the source
+- Use a quote only if the source contains one, attributed to the person or office named there; never invent quotes or facts
+- Use only what the source says: no background facts, advice or details that are not in it, even if they sound right. A shorter article is better than an invented one
+- Add the "What citizens should do" section only if citizens need to act (who is eligible, how to apply, last date)
+- End with where readers can find more information (helpline, website or office), only if the source gives it
+- 350-600 words, neutral and plain, with no opinion
+
+Use exactly this layout. Never write labels such as "Headline:", "Dateline:" or "Lead paragraph:".
+# <headline>
+**<sub-headline>**
+
+<Place>, <Date>: <lead paragraph>
+
+<body paragraphs>
+
+## What citizens should do
+- <action>
 
 Source content:
 ${source}`,
@@ -374,9 +393,10 @@ ${source}`,
       user: `Translate the following text into ${targetLanguage ?? 'Hindi'}. Requirements:
 - Translate every line, heading, list item and table cell, in the original order
 - Keep the line breaks, Markdown and numbering exactly as in the source
+- Keep every number, date, amount and phone number in the same digits as the source (0-9), so helplines and deadlines stay easy to read
 - Use natural, idiomatic ${targetLanguage ?? 'Hindi'}, keeping the original meaning and tone
 - Keep technical terms, adding the English in brackets when there is no ${targetLanguage ?? 'Hindi'} equivalent
-- Output only the translation
+${targetLanguage === 'English' ? '' : `- Write in the ${targetLanguage ?? 'Hindi'} script, never in Latin letters (Urdu in Nastaliq/Arabic script, Punjabi in Gurmukhi, Odia in Odia script)\n`}- Output only the translation
 
 Text to translate:
 ${source}`,

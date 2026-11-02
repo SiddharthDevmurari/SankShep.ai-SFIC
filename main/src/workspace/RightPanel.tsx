@@ -9,6 +9,7 @@ import { isAbortError, isLocal, OwnKeyError, providerInfo, withoutKey, type ApiK
 import { KeyConsentDialog } from './KeyConsentDialog'
 import type { ToneOption } from '../lib/pipeline'
 import { RichText } from './RichText'
+import { NewsArticle } from './NewsArticle'
 import { StepNumber, toneLabel, type LeftPanelStatus } from './LeftPanel'
 import type { LiveStream, RunContext } from './TransformView'
 import { BrandMark } from '../components/site/SiteChrome'
@@ -779,20 +780,7 @@ function DownloadMenu({ options, onPick, disabled }: {
 function MockupView({ format, content }: { format: OutputFormat; content: string }) {
   if (!content) return <p className="text-center text-[13px] text-ink-mute">No content yet.</p>
 
-  if (format === 'LinkedIn Post') {
-    return (
-      <div className="sk-sheet mx-auto max-w-[560px] rounded-2xl bg-white p-6">
-        <div className="flex items-center gap-3">
-          <BrandMark className="h-11 w-11 rounded-full" />
-          <div>
-            <p className="text-[14px] font-semibold text-ink">Sankshep.ai</p>
-            <p className="text-[11.5px] text-ink-mute">AI Content Platform · Just now</p>
-          </div>
-        </div>
-        <div className="mt-2 [&_p]:text-[14.5px] [&_p]:leading-[1.7]"><RichText text={content} /></div>
-      </div>
-    )
-  }
+  if (format === 'News Article') return <NewsArticle text={content} className="px-8 py-10 sm:px-12 sm:py-12" />
 
   if (format === 'Twitter/X Post') {
     const tweets = content.split(/\n\d+\//).filter(Boolean)

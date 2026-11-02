@@ -6,7 +6,7 @@
 
 **One official document in. Every citizen-ready format out.**
 
-A generative AI workspace that turns one circular, advisory, scheme guideline or report into plain summaries, advisories, slide decks, video scripts, social posts and translations in six Indian languages, all drafted in parallel and then refined in plain words. For documents that can't leave the office, **Private mode** does the whole job on your own computer.
+A generative AI workspace that turns one circular, advisory, scheme guideline or report into plain summaries, advisories, slide decks, video scripts, social posts and translations into English and 12 Indian languages, all drafted in parallel and then refined in plain words. For documents that can't leave the office, **Private mode** does the whole job on your own computer.
 
 *Seva First Innovation Challenge (SFIC) · Track 2: Open Innovation · Official Team Code: TM003665*
 
@@ -59,7 +59,7 @@ A generative AI workspace that turns one circular, advisory, scheme guideline or
 - **End beneficiaries:** citizens, especially those who don't read English or find official language hard to follow.
 - **Secondary stakeholders:** departments that handle confidential documents and can't send them to outside AI services.
 
-**What we deliver.** A working web prototype: bring any source, pick from 10 formats (or describe your own), set the audience and tone, and get every draft at once. Drafts are refined in plain words, slides download as PowerPoint, text translates into Hindi, Gujarati, Marathi, Bengali, Telugu and Tamil, and Private mode keeps confidential files on the user's own computer. Accounts, a History of past work and an admin panel support oversight.
+**What we deliver.** A working web prototype: bring any source, pick from 10 formats (or describe your own), set the audience and tone, and get every draft at once. Drafts are refined in plain words, slides download as PowerPoint, text translates into English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia, Malayalam, Punjabi and Assamese, and Private mode keeps confidential files on the user's own computer. Accounts, a History of past work and an admin panel support oversight.
 
 **The impact.** Schemes, health advisories and safety alerts reach citizens faster, in their own language and in simple words. Teams turn hours of rewriting into minutes, every format comes from the same source, small offices can produce professional material, and sensitive documents can use AI safely. Free and low-cost models on ordinary hardware keep it affordable at district and panchayat level.
 
@@ -140,7 +140,7 @@ Private mode works in Chrome, Edge and Firefox. Safari doesn't let secure websit
 |---|---|
 | **Private mode (on-device AI)** | One switch moves the whole job onto the user's computer: drafts are written by `qwen2.5vl:7b` through a local Ollama, streamed onto the canvas, with nothing sent to Sankshep or any AI provider. See [Private mode](#private-mode-ai-that-never-leaves-your-computer). |
 | **Zero-config AI** | Shared Groq, Gemini and OpenRouter keys live on the server (`/api/chat`), and a model is already chosen, so the first draft is one click away. Anyone can add their own key in the **AI engine** step instead. |
-| **One source, many formats** | Executive Summary, LinkedIn Post, Twitter/X thread, Video script and storyboard, Slide deck (exports to PowerPoint), Blog Post, Advisory, Infographic brief, Simplified Explanation, and translation into six Indian languages. Or describe a format in your own words. Every selected format is drafted in parallel from the same source. |
+| **One source, many formats** | Executive Summary, News Article, Twitter/X thread, Video script and storyboard, Slide deck (exports to PowerPoint), Blog Post, Advisory, Infographic brief, Simplified Explanation, and translation into English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia, Malayalam, Punjabi and Assamese. Or describe a format in your own words. Every selected format is drafted in parallel from the same source. |
 | **Smart generation check (your tokens, respected)** | Tokens cost money on a paid key and run out on a free one, so Sankshep never spends them on a draft you already have. When you press Generate, it compares your selection with the drafts already on the canvas from the same source and settings. If some are there, a prompt says *"Some of these formats have already been generated."* and offers **Generate only new formats** (sends just the new ones; every existing draft stays, edits and refinements included), **Regenerate all**, or **Cancel**. An all-new selection is simply added next to the existing drafts. The new formats show as tabs being written while the others stay readable. |
 | **Dynamic context routing for Refine** | Type a change under any draft ("make it shorter", "add the budget figure from the report") and only that draft is rewritten. A fast routing model first decides what the change needs: style, length, tone and formatting edits are sent with **the draft only**, so they stay small and keep the draft's facts as they are; requests for facts, missing detail or anything in the original are sent with **the draft and the source**, so the model can look it up instead of guessing. If routing fails or times out, the source is included, so accuracy never depends on it. |
 | **Consent-based key fallback** | If your own key fails (rejected, out of quota, rate-limited beyond a short wait, or the provider keeps erroring), nothing switches behind your back. The run pauses and a prompt shows the provider's exact error and asks: *"Would you like to generate this using Sankshep.ai's free API key instead?"* **Use Sankshep Key** re-runs through the shared keys; **Cancel** leaves the workspace idle and sends nothing else. |
@@ -152,6 +152,7 @@ Private mode works in Chrome, Edge and Firefox. Safari doesn't let secure websit
 | **Full-length translation** | Translation covers the whole source, line by line, in chunks, however long the document is. |
 | **History & Analytics** | Every draft is logged with its format, provider, model and word counts. Filter your history by format and see usage at a glance. |
 | **Install as an app** | Installable on Android, iPhone, iPad, Mac and Windows from the website itself (a PWA). The landing page shows **Download for Android** or **Download for iOS** on those devices. On phones and tablets, the three-line menu in the top navigation reaches every page. |
+| **Website in 13 languages** | The public pages (landing, features, how it works, about, contact, sign-in and legal) can be read in English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu (right to left), Kannada, Odia, Malayalam, Punjabi and Assamese, from the language menu in the top bar. English and Hindi are written by the team; the other eleven were machine-translated from the English with Gemini and are downloaded only when chosen. The workspace itself stays in English. |
 | **Accounts & admin** | Email sign-up with no verification step, a shared demo account, self-service account deletion, and an admin panel for all users and activity. The admin can **disable** an account (it keeps its data but is signed out everywhere and can't sign in; anyone trying is told it's disabled and to contact the admin), **enable** it again, or delete it. |
 
 The public [`/features`](https://sankshep-sfic.vercel.app/features) page walks through the main features with interactive previews.
@@ -476,6 +477,8 @@ Supabase is configured by the two `VITE_SUPABASE_*` variables in step 3.
 - **Free-tier limits:** long documents on free Groq keys take a few minutes, and free OpenRouter models are often busy (the app waits and retries).
 - **Private mode trades speed and reach for privacy.** Formats are written one at a time, long sources are drafted from passages (about 6,000 characters fit the 4,096-token window), links can't be used, and it needs Ollama on the same computer with a browser other than Safari (or the app on `localhost`). Compare mode isn't available in Private mode.
 - **AI drafts can include facts that aren't in the source.** Check them before use.
+- **The website's translations other than English and Hindi are machine-generated** (Gemini, from the English). A native speaker should review each one before it is relied on; the English pages, especially the Terms and Privacy Policy, are the reference version.
+- **Private mode translates less well into smaller languages.** The local 7B model handles Hindi and other widely used languages best; Odia, Assamese and Punjabi drafts may need more correction.
 
 ## Team
 

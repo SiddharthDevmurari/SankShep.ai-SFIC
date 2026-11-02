@@ -2,9 +2,9 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, MotionConfig, motion, useInView } from 'motion/react'
 import { AppWindow, Check, Cloud, Cpu, FileText, KeyRound, Lock, Server, Square, WandSparkles } from 'lucide-react'
-import { ArrowRight, BrandMark, SitePage } from '../components/site/SiteChrome'
+import { ArrowRight, SitePage } from '../components/site/SiteChrome'
 import { ALL_FORMATS } from '../workspace/LeftPanel'
-import { useCopy } from '../i18n'
+import { useCopy, useLang } from '../i18n'
 import { FEATURES_COPY } from './featuresCopy'
 
 /*
@@ -62,10 +62,12 @@ function ChapterLabel({ n, children, dark }: { n: number; children: ReactNode; d
  * sections the lime becomes a highlighter stroke behind ink; on the ink band the lime itself carries it.
  */
 function Accent({ children, dark }: { children: ReactNode; dark?: boolean }) {
+  // English accents are a few short words kept on one line; translated ones run longer and must wrap on a phone.
+  const nowrap = useLang().lang === 'en' ? 'whitespace-nowrap' : ''
   return dark ? (
     <span className="font-serif text-matcha">{children}</span>
   ) : (
-    <span className="font-serif whitespace-nowrap bg-[linear-gradient(transparent_58%,#d4ed64_58%,#d4ed64_92%,transparent_92%)] px-[0.06em] text-ink [box-decoration-break:clone]">
+    <span className={`font-serif ${nowrap} bg-[linear-gradient(transparent_58%,#d4ed64_58%,#d4ed64_92%,transparent_92%)] px-[0.06em] text-ink [box-decoration-break:clone]`}>
       {children}
     </span>
   )
@@ -227,7 +229,7 @@ function SetupVisual() {
                 <Check className="h-3.5 w-3.5" strokeWidth={3} />
               </motion.span>
               <span className={`text-[14.5px] font-medium ${i === 2 ? 'text-ink-mute line-through decoration-ink/30' : 'text-ink'}`}>{s.label}</span>
-              <span className="ml-auto text-[13px] text-ink-soft">{s.note}</span>
+              <span className="ms-auto min-w-0 text-end text-[13px] text-ink-soft">{s.note}</span>
             </motion.li>
           ))}
         </ol>
@@ -316,7 +318,7 @@ function OneToMany() {
   )
 }
 
-const BOARD_FORMATS = ['Executive Summary', 'PPT Presentation', 'LinkedIn Post', 'Twitter/X Post', 'Language Translation'] as const
+const BOARD_FORMATS = ['Executive Summary', 'PPT Presentation', 'News Article', 'Twitter/X Post', 'Language Translation'] as const
 
 /**
  * Five drafts from one example source. Each tile takes the shape of its format (a tall brief,
@@ -358,15 +360,10 @@ function FormatBoard() {
         </div>
       </Tile>
 
-      <Tile label={t.tiles.linkedin} delay={1.5} start={inView} className="lg:col-span-2">
-        <div className="flex items-center gap-2">
-          <BrandMark className="h-7 w-7 rounded-full" />
-          <p className="text-[12.5px] font-semibold text-ink">Sankshep.ai</p>
-        </div>
-        <p className="mt-2.5 text-[13.5px] leading-relaxed text-ink/85">
-          {t.post}
-        </p>
-        <p className="mt-2 text-[12.5px] font-medium text-ink-soft">#Solar #SmallBusiness</p>
+      <Tile label={t.tiles.news} delay={1.5} start={inView} className="lg:col-span-2">
+        <div className="h-0.5 w-full bg-ink" />
+        <p className="font-display mt-2.5 text-[17px] font-bold leading-snug text-ink">{t.news.headline}</p>
+        <p className="mt-2 text-[13.5px] leading-relaxed text-ink/85">{t.news.lead}</p>
       </Tile>
 
       <Tile label={t.tiles.thread} delay={0.9} start={inView} className="lg:col-span-2">

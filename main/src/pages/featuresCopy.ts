@@ -1,6 +1,7 @@
 // Features page copy in English and Hindi. Headlines are [before, accent, after], so the page keeps
 // drawing the accent with its own highlighter. Workspace names like Generate, Refine, Stop, History and
 // Private mode stay in Latin, since the workspace itself is in English.
+import { defineCopy } from '../i18n'
 import { MAX_COMPARE } from '../workspace/LeftPanel'
 
 type Headline = [string, string, string]
@@ -57,7 +58,7 @@ const en = {
     draftLabel: (label: string) => `${label} draft`,
     ready: 'Ready',
     writing: 'Writing…',
-    tiles: { summary: 'Executive Summary', slides: 'Slide Deck', linkedin: 'LinkedIn Post', thread: 'X / Twitter', translation: 'Translation · Hindi' },
+    tiles: { summary: 'Executive Summary', slides: 'Slide Deck', news: 'News Article', thread: 'X / Twitter', translation: 'Translation · Hindi' },
     brief: {
       kicker: 'Executive brief',
       title: 'Rooftop solar for small shops',
@@ -72,7 +73,10 @@ const en = {
       notesLabel: 'Speaker notes',
       notes: 'Start with the number people remember: forty percent. Then show what it means for one shop’s bill.',
     },
-    post: 'Small shops just got a real reason to go solar. The new policy pays 40% of the setup, and every state now lets you sell spare power back.',
+    news: {
+      headline: 'Government to pay 40% of rooftop solar costs for small shops',
+      lead: 'Small shops can now have 40% of their rooftop solar installation paid for, and every state must offer net-metering, so shops can sell spare power back to the grid.',
+    },
     thread: ['Rooftop solar just got 40% cheaper for small shops.', 'And net-metering is now in every state.', 'Payback: 3.9 years, down from 6.5.'],
   },
   noWaste: {
@@ -131,7 +135,7 @@ const en = {
     readsLabel: 'Reads: ',
     readsBoth: 'your draft and your original document',
     readsDraft: 'your draft only',
-    postLabel: 'LinkedIn Post',
+    postLabel: 'Simplified Explanation',
     reads: 'Reads',
     yourDraft: 'Your draft',
     wordCount: (before: number, after: number) => `${before} words before · ${after} after`,
@@ -158,7 +162,7 @@ const en = {
       again: 'Show the prompt again',
     },
     stop: {
-      formats: ['Executive Summary', 'LinkedIn Post', 'X / Twitter', 'Slide Deck', 'Blog Post'],
+      formats: ['Executive Summary', 'News Article', 'X / Twitter', 'Slide Deck', 'Blog Post'],
       ready: 'Ready',
       notWritten: 'Not written',
       writing: 'Writing…',
@@ -207,7 +211,7 @@ const en = {
       { title: 'Compare models side by side', body: `Run the same brief through up to ${MAX_COMPARE} models and read their drafts next to each other.` },
       { title: 'Write for the right readers', body: 'Pick managers, HR and sales, engineers or the general public, or describe your own readers and save them for next time.' },
       { title: 'Choose a tone once', body: 'Professional, technical, casual or academic, applied to every draft in the run.' },
-      { title: 'Six Indian languages', body: 'Translate into Hindi, Gujarati, Marathi, Bengali, Telugu or Tamil, the whole document, line by line.' },
+      { title: 'English and 12 Indian languages', body: 'Translate the whole document, line by line, into English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia, Malayalam, Punjabi or Assamese.' },
       { title: 'Read images and scans', body: 'Photos of pages and scanned PDFs are read first, so a picture of a report works as a source too.' },
       { title: 'Take it with you', body: 'Copy any draft, download it as Markdown or plain text, and take slide decks away as PowerPoint. Past runs wait for you in History.' },
     ],
@@ -222,7 +226,7 @@ const en = {
 /** Hindi names for the workspace formats, keyed by their ALL_FORMATS label. */
 const HI_FORMATS: Record<string, string> = {
   'Executive Summary': 'कार्यकारी सारांश',
-  'LinkedIn Post': 'LinkedIn पोस्ट',
+  'News Article': 'समाचार लेख',
   'Twitter/X Post': 'X / Twitter',
   Video: 'वीडियो',
   'PPT Presentation': 'स्लाइड डेक',
@@ -284,7 +288,7 @@ const hi: typeof en = {
     draftLabel: (label: string) => `${label} ड्राफ़्ट`,
     ready: 'तैयार',
     writing: 'लिख रहा है…',
-    tiles: { summary: 'कार्यकारी सारांश', slides: 'स्लाइड डेक', linkedin: 'LinkedIn पोस्ट', thread: 'X / Twitter', translation: 'अनुवाद · हिंदी' },
+    tiles: { summary: 'कार्यकारी सारांश', slides: 'स्लाइड डेक', news: 'समाचार लेख', thread: 'X / Twitter', translation: 'अनुवाद · हिंदी' },
     brief: {
       kicker: 'कार्यकारी ब्रीफ़',
       title: 'छोटी दुकानों के लिए रूफ़टॉप सोलर',
@@ -299,7 +303,10 @@ const hi: typeof en = {
       notesLabel: 'वक्ता के नोट्स',
       notes: 'उस संख्या से शुरू करें जो लोगों को याद रहती है: चालीस प्रतिशत। फिर दिखाएँ कि एक दुकान के बिल पर इसका क्या असर होता है।',
     },
-    post: 'छोटी दुकानों के पास अब सोलर अपनाने की असली वजह है। नई नीति सेटअप का 40% देती है, और अब हर राज्य में आप बची हुई बिजली वापस बेच सकते हैं।',
+    news: {
+      headline: 'छोटी दुकानों के रूफ़टॉप सोलर का 40% ख़र्च सरकार देगी',
+      lead: 'छोटी दुकानों के रूफ़टॉप सोलर इंस्टॉलेशन का 40% ख़र्च अब सरकार देगी, और हर राज्य को नेट-मीटरिंग देनी होगी, ताकि दुकानें बची हुई बिजली ग्रिड को वापस बेच सकें।',
+    },
     thread: ['छोटी दुकानों के लिए रूफ़टॉप सोलर अब 40% सस्ता।', 'और नेट-मीटरिंग अब हर राज्य में।', 'लागत वसूली: 3.9 साल, पहले 6.5 थी।'],
   },
   noWaste: {
@@ -358,7 +365,7 @@ const hi: typeof en = {
     readsLabel: 'पढ़ता है: ',
     readsBoth: 'आपका ड्राफ़्ट और आपका मूल दस्तावेज़',
     readsDraft: 'सिर्फ़ आपका ड्राफ़्ट',
-    postLabel: 'LinkedIn पोस्ट',
+    postLabel: 'सरल व्याख्या',
     reads: 'पढ़ता है',
     yourDraft: 'आपका ड्राफ़्ट',
     wordCount: (before: number, after: number) => `पहले ${before} शब्द · बाद में ${after}`,
@@ -385,7 +392,7 @@ const hi: typeof en = {
       again: 'संदेश फिर से दिखाएँ',
     },
     stop: {
-      formats: ['कार्यकारी सारांश', 'LinkedIn पोस्ट', 'X / Twitter', 'स्लाइड डेक', 'ब्लॉग पोस्ट'],
+      formats: ['कार्यकारी सारांश', 'समाचार लेख', 'X / Twitter', 'स्लाइड डेक', 'ब्लॉग पोस्ट'],
       ready: 'तैयार',
       notWritten: 'नहीं लिखा गया',
       writing: 'लिख रहा है…',
@@ -434,7 +441,7 @@ const hi: typeof en = {
       { title: 'मॉडलों की साथ-साथ तुलना', body: `एक ही ब्रीफ़ को ${MAX_COMPARE} तक मॉडलों से चलाएँ और उनके ड्राफ़्ट एक-दूसरे के बगल में पढ़ें।` },
       { title: 'सही पाठकों के लिए लिखें', body: 'मैनेजर, HR और सेल्स, इंजीनियर या आम जनता चुनें, या अपने पाठकों का वर्णन करके उन्हें अगली बार के लिए सहेज लें।' },
       { title: 'टोन एक बार चुनें', body: 'पेशेवर, तकनीकी, बोलचाल वाली या अकादमिक, रन के हर ड्राफ़्ट पर लागू।' },
-      { title: 'छह भारतीय भाषाएँ', body: 'पूरे दस्तावेज़ का, लाइन-दर-लाइन, हिंदी, गुजराती, मराठी, बांग्ला, तेलुगु या तमिल में अनुवाद करें।' },
+      { title: 'अंग्रेज़ी और 12 भारतीय भाषाएँ', body: 'पूरे दस्तावेज़ का, लाइन-दर-लाइन, अंग्रेज़ी, हिंदी, बांग्ला, मराठी, तेलुगु, तमिल, गुजराती, उर्दू, कन्नड़, ओड़िया, मलयालम, पंजाबी या असमिया में अनुवाद करें।' },
       { title: 'इमेज और स्कैन पढ़ें', body: 'पेजों की फ़ोटो और स्कैन किए PDF पहले पढ़े जाते हैं, इसलिए किसी रिपोर्ट की तस्वीर भी स्रोत बन सकती है।' },
       { title: 'साथ ले जाएँ', body: 'कोई भी ड्राफ़्ट कॉपी करें, उसे Markdown या सादे टेक्स्ट के रूप में डाउनलोड करें, और स्लाइड डेक PowerPoint के रूप में ले जाएँ। पिछले रन History में आपका इंतज़ार करते हैं।' },
     ],
@@ -446,4 +453,4 @@ const hi: typeof en = {
   },
 }
 
-export const FEATURES_COPY = { en, hi }
+export const FEATURES_COPY = defineCopy('features', { en, hi })

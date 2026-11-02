@@ -1,5 +1,6 @@
 // How it works page copy in English and Hindi. Numbers come from the workspace code, so both languages stay in step with it.
 // Workspace labels the reader will see in the (English) app, like Generate and History, stay in Latin.
+import { defineCopy } from '../i18n'
 import { MAX_COMPARE, MAX_FILE_BYTES, MAX_IMAGE_BYTES } from '../workspace/LeftPanel'
 
 const MB = 1024 * 1024
@@ -11,7 +12,7 @@ const en = {
     lead: 'Here is exactly what happens between pressing Generate and reading your drafts, and where your content goes on the way.',
     tryIt: 'Try it on a document',
     walk: 'Walk through the pipeline',
-    outputs: ['Executive Summary', 'LinkedIn Post', 'Slide Deck', 'Hindi translation'],
+    outputs: ['Executive Summary', 'News Article', 'Slide Deck', 'Hindi translation'],
     playAgain: 'Play again',
   },
   stages: [
@@ -57,10 +58,10 @@ const en = {
     factsKept: 'Every fact kept',
     cleanNode: ['Clean', 'source'],
     models: ['Model A', 'Model B'],
-    fanFormats: ['Summary', 'LinkedIn', 'Slides', 'Blog'],
+    fanFormats: ['Summary', 'News', 'Slides', 'Blog'],
     started: '8 drafts, started together',
     refineTyped: 'Shorter, three bullets',
-    tabs: ['Summary', 'LinkedIn', 'Slides'],
+    tabs: ['Summary', 'News', 'Slides'],
     refine: 'Refine',
     saved: 'Saved to History',
   },
@@ -109,7 +110,7 @@ const hi: typeof en = {
     lead: 'Generate दबाने से लेकर अपने ड्राफ़्ट पढ़ने तक ठीक-ठीक क्या होता है, और इस बीच आपका कंटेंट कहाँ-कहाँ जाता है, यहाँ देखिए।',
     tryIt: 'किसी दस्तावेज़ पर आज़माएँ',
     walk: 'पाइपलाइन को क़दम-दर-क़दम देखें',
-    outputs: ['कार्यकारी सारांश', 'LinkedIn पोस्ट', 'स्लाइड डेक', 'हिंदी अनुवाद'],
+    outputs: ['कार्यकारी सारांश', 'समाचार लेख', 'स्लाइड डेक', 'हिंदी अनुवाद'],
     playAgain: 'फिर से चलाएँ',
   },
   stages: [
@@ -155,10 +156,10 @@ const hi: typeof en = {
     factsKept: 'हर तथ्य सुरक्षित',
     cleanNode: ['साफ़', 'स्रोत'],
     models: ['मॉडल A', 'मॉडल B'],
-    fanFormats: ['सारांश', 'LinkedIn', 'स्लाइड', 'ब्लॉग'],
+    fanFormats: ['सारांश', 'समाचार', 'स्लाइड', 'ब्लॉग'],
     started: '8 ड्राफ़्ट, एक साथ शुरू',
     refineTyped: 'और छोटा, तीन बिंदुओं में',
-    tabs: ['सारांश', 'LinkedIn', 'स्लाइड'],
+    tabs: ['सारांश', 'समाचार', 'स्लाइड'],
     refine: 'सुधारें',
     saved: 'History में सहेजा गया',
   },
@@ -199,4 +200,4 @@ const hi: typeof en = {
   },
 }
 
-export const HOW_COPY = { en, hi }
+export const HOW_COPY = defineCopy('how', { en, hi })

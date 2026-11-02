@@ -1,0 +1,39 @@
+Sankshep.ai - Team Roles
+Seva First Innovation Challenge (SFIC) - Team Code: TM003665
+=============================================================
+
+Mentor
+   Name   : Khushali Mam, VGEC (IT)
+   Mobile : +919714611388
+
+-------------------------------------------------------------
+
+1. Siddharth Devmurari (Team Leader)
+   Role : AI Pipeline Lead
+   Owns : The generation pipeline, the AI model connections (Groq, Gemini,
+          OpenRouter), the server API (/api/chat), and Refine
+
+2. Suhani Jain
+   Role : Multilingual NLP & Ingestion
+   Owns : File reading (PDF, Word, images, OCR), translation into 6 Indian
+          languages, and PowerPoint export
+
+3. Harshit Vadher
+   Role : Edge AI Inference
+   Owns : Private mode: running the local LLM through Ollama, streamed output,
+          the hardware check, and the setup guide
+
+4. Vraj Patel
+   Role : Website & UI Design
+   Owns : Landing, Features, How It Works, About and Contact pages, the design
+          theme, and the installable app (PWA)
+
+5. Kalindi Purohit
+   Role : Frontend Architecture & State Management
+   Owns : The main workspace: settings sidebar, output canvas, model
+          comparison, Generate and Stop
+
+6. Kalee Hindocha
+   Role : Backend & Security
+   Owns : Supabase database, login and sign-up, protected routes, Admin panel,
+          History and Analytics

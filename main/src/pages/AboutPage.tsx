@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { MotionConfig, motion } from 'motion/react'
 import type { ReactNode } from 'react'
 import { ArrowRight, GITHUB_URL, GithubIcon, SitePage } from '../components/site/SiteChrome'
-import { useCopy } from '../i18n'
+import { defineCopy, useCopy } from '../i18n'
 
 const TEAM = ['Siddharth Devmurari', 'Suhani Jain', 'Harshit Vadher', 'Vraj Patel', 'Kalindi Purohit', 'Kalee Hindocha']
 
@@ -43,8 +43,10 @@ const hi: typeof en = {
   readCode: 'कोड पढ़ें',
 }
 
+export const ABOUT_COPY = defineCopy('about', { en, hi })
+
 export default function AboutPage() {
-  const t = useCopy({ en, hi })
+  const t = useCopy(ABOUT_COPY)
   return (
     <MotionConfig reducedMotion="user">
       <SitePage>

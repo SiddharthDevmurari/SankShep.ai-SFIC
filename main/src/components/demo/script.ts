@@ -95,8 +95,8 @@ export const BEATS: Beat[] = [
 
   // 2. Pick formats. Executive Summary starts selected, as it does in the workspace.
   { t: 'chapter', n: 1 },
-  { t: 'move', to: 'fmt-linkedin', ms: 900 },
-  { t: 'click', apply: toggle('linkedin') },
+  { t: 'move', to: 'fmt-news', ms: 900 },
+  { t: 'click', apply: toggle('news') },
   { t: 'move', to: 'fmt-deck', ms: 550 },
   { t: 'click', apply: toggle('deck') },
   { t: 'wait', ms: 450 },
@@ -126,14 +126,14 @@ export const BEATS: Beat[] = [
   { t: 'set', apply: (s) => ({ phase: 'done', draft: 'exec', drafts: s.drafts + 3, generatedAt: Date.now() }) },
   { t: 'wait', ms: 600 },
 
-  // 5. Read, refine the LinkedIn post, preview it.
+  // 5. Read, refine the news article, preview it.
   { t: 'chapter', n: 4 },
   { t: 'move', to: 'draft-body', ms: 800, at: [0.6, 0.3] },
   { t: 'scroll', area: 'canvas', to: 'end', ms: 1800 },
   { t: 'wait', ms: 400 },
   { t: 'scroll', area: 'canvas', to: 0, ms: 700 },
-  { t: 'move', to: 'tab-linkedin', ms: 750 },
-  { t: 'click', apply: () => ({ draft: 'linkedin' }) },
+  { t: 'move', to: 'tab-news', ms: 750 },
+  { t: 'click', apply: () => ({ draft: 'news' }) },
   { t: 'wait', ms: 500 },
   // Clicks the right side of the box, so the pointer doesn't sit on the words it types.
   { t: 'move', to: 'refine-input', ms: 750, at: [0.75, 0.5] },

@@ -1,7 +1,7 @@
 // What the demo works on. The source is the team's own SFIC problem statement, and every count shown
 // in the mockup is computed from these strings.
 import {
-  AtSign, Briefcase, ChartPie, Clapperboard, FileText, Languages, Lightbulb, Newspaper, Presentation, ShieldAlert,
+  AtSign, ChartPie, Clapperboard, FileText, Languages, Lightbulb, Newspaper, PenLine, Presentation, ShieldAlert,
 } from 'lucide-react'
 import source from '../../imports/SFIC_Problem_Statement.txt?raw'
 
@@ -16,22 +16,22 @@ export const SOURCE_KB = Math.max(1, Math.round(new TextEncoder().encode(source)
 /** The workspace's format grid, in its order (LeftPanel ALL_FORMATS). */
 export const FORMATS = [
   { id: 'exec', label: 'Executive Summary', short: 'Executive Summary', desc: 'C-suite brief', icon: FileText },
-  { id: 'linkedin', label: 'LinkedIn Post', short: 'LinkedIn Post', desc: 'Up to 3,000 chars', icon: Briefcase },
+  { id: 'news', label: 'News Article', short: 'News Article', desc: 'Press-ready report', icon: Newspaper },
   { id: 'x', label: 'Twitter/X Post', short: 'X / Twitter', desc: 'Hook + thread', icon: AtSign },
   { id: 'video', label: 'Video', short: 'Video', desc: 'Script & storyboard', icon: Clapperboard },
   { id: 'deck', label: 'PPT Presentation', short: 'Slide Deck', desc: 'Slides + notes', icon: Presentation },
-  { id: 'blog', label: 'Blog Post', short: 'Blog Post', desc: 'SEO long-form', icon: Newspaper },
+  { id: 'blog', label: 'Blog Post', short: 'Blog Post', desc: 'SEO long-form', icon: PenLine },
   { id: 'advisory', label: 'Advisory', short: 'Advisory', desc: 'Findings & actions', icon: ShieldAlert },
   { id: 'infographic', label: 'Infographic', short: 'Infographic', desc: 'Stats & layout', icon: ChartPie },
   { id: 'simple', label: 'Simplified Explanation', short: 'Simplified', desc: 'Plain language', icon: Lightbulb },
-  { id: 'translation', label: 'Language Translation', short: 'Translation', desc: 'Indian languages', icon: Languages },
+  { id: 'translation', label: 'Language Translation', short: 'Translation', desc: '13 languages', icon: Languages },
 ] as const
 
 export type FormatId = (typeof FORMATS)[number]['id']
 export const formatOf = (id: FormatId) => FORMATS.find((f) => f.id === id)!
 
 /** The three formats the pointer picks. */
-export const DEMO_FORMATS = ['exec', 'linkedin', 'deck'] as const satisfies readonly FormatId[]
+export const DEMO_FORMATS = ['exec', 'news', 'deck'] as const satisfies readonly FormatId[]
 export type DraftId = (typeof DEMO_FORMATS)[number]
 
 export const TONES = [
@@ -68,7 +68,7 @@ export const readsImages = (m: ModelChoice) =>
 export const EMPTY_QUOTE =
   'Transform your content into multiple formats. Upload your source, select your outputs, and generate accurate, editable drafts in seconds.'
 
-export const REFINE_PROMPT = 'Shorter, end with one question'
+export const REFINE_PROMPT = 'Shorter, three paragraphs'
 
 // The drafts are written from the source above: no figures beyond what it states.
 export const DRAFTS: Record<DraftId, string> = {
@@ -85,21 +85,24 @@ Circulars, advisories and scheme guidelines only help when people understand the
 ## What the prototype does
 - Takes a PDF, Word file, image, web link or pasted text as the source.
 - Drafts up to 10 formats at once, for the audience and tone you choose.
-- Translates into Hindi, Gujarati, Marathi, Bengali, Telugu and Tamil.
+- Translates into English and 12 Indian languages, from Hindi and Bengali to Urdu and Assamese.
 - Runs entirely on the user's computer in Private mode, for confidential files.
 
 ## Decision needed
 Pick one department's recent advisories as pilot sources, and agree who checks the drafts before they go out.`,
 
-  linkedin: `A single circular often has to become five things: a summary for officers, a simple note for citizens, a post, a meeting deck and a video script. Each one is written by hand, often only in English.
+  news: `## One document, every version: Sankshep.ai drafts official notices for citizens
+**An entry in the Seva First Innovation Challenge turns one circular into summaries, decks, scripts and translations in 12 Indian languages at once**
 
-For the Seva First Innovation Challenge, we are building Sankshep.ai to do that step. Upload the document, pick the formats, set the audience and tone, and every version is drafted together, in Hindi and five more Indian languages if needed.
+[Place], [Date]: A team in the Seva First Innovation Challenge (SFIC) has built Sankshep.ai, a web prototype that turns one official document into every version that officials and citizens need, all drafted together.
 
-For confidential files, Private mode runs the AI on your own computer, so nothing leaves the office.
+Today the same circular is rewritten by hand into a summary for officials, a simple explanation for citizens, a social media post, a meeting deck and a video script. District offices and NGOs rarely have communication staff, so information often goes out late, in English only, or in official language that many citizens cannot follow.
 
-If you work in a department, a PHC or an NGO, which version of your next advisory would you hand off first?
+With Sankshep.ai, staff add a PDF, Word file, image, web link or pasted text, pick the formats they need, and set the audience and tone. Text can also be translated into English and 12 Indian languages, including Hindi, Bengali, Tamil, Urdu and Assamese.
 
-#SevaFirst #GovTech #GenAI`,
+For confidential files, Private mode runs the AI on the user's own computer, so the document never leaves the office.
+
+The prototype is meant for IEC officers, health workers and PHC staff, panchayat and municipal staff, NGOs, and disaster management and cyber-safety teams.`,
 
   deck: `## Slide 1: One circular, every citizen
 Sankshep.ai · Seva First Innovation Challenge · Track 2: Open Innovation
@@ -114,21 +117,21 @@ Sankshep.ai · Seva First Innovation Challenge · Track 2: Open Innovation
 
 ## Slide 4: What Sankshep does
 - One source in, up to 10 formats out, drafted in parallel
-- Translation into six Indian languages
+- Translation into English and 12 Indian languages
 
 ## Slide 5: Safe for sensitive files
 - Private mode runs the AI on the user's own computer
 - Confidential documents never leave the device`,
 }
 
-/** The LinkedIn draft after the pointer asks for REFINE_PROMPT. */
-export const LINKEDIN_REFINED = `One circular, five versions, each written by hand.
+/** The News Article draft after the pointer asks for REFINE_PROMPT. */
+export const NEWS_REFINED = `## One document, every version: Sankshep.ai drafts official notices for citizens
 
-For the Seva First Innovation Challenge, we are building Sankshep.ai to draft them all from one document, in Hindi and five more Indian languages, with a Private mode for confidential files.
+[Place], [Date]: A team in the Seva First Innovation Challenge (SFIC) has built Sankshep.ai, a web prototype that turns one official document into summaries, decks, scripts and translations, all drafted together.
 
-Which version would you hand off first?
+Today each version is rewritten by hand, so information often reaches citizens late, in English only, or in hard official language. Sankshep.ai drafts them from one source, in English and 12 Indian languages when needed.
 
-#SevaFirst #GovTech`
+For confidential files, Private mode runs the AI on the user's own computer, so the document never leaves the office.`
 
 const DATE = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 const TIME = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false })
