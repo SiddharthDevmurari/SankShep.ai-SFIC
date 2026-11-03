@@ -12,7 +12,7 @@ A generative AI workspace that turns one circular, advisory, scheme guideline or
 
 **Live: [sankshep-sfic.vercel.app](https://sankshep-sfic.vercel.app)**
 
-<a href="SFIC%20Synopsis%20PPT%20final.pdf"><img src="photos/buttons/synopsis-ppt.svg" width="300" alt="Synopsis PPT (PDF)" /></a>
+<a href="SFIC%20Synopsis%20PPT.pdf"><img src="photos/buttons/synopsis-ppt.svg" width="300" alt="Synopsis PPT (PDF)" /></a>
 <a href="SankShep.ai%20SFIC%20architecture%20file.pdf"><img src="photos/buttons/system-architecture.svg" width="300" alt="System Architecture (PDF)" /></a>
 <a href="https://sankshep-sfic.vercel.app"><img src="photos/buttons/live-app.svg" width="300" alt="Live App" /></a>
 
@@ -66,7 +66,7 @@ A generative AI workspace that turns one circular, advisory, scheme guideline or
 
 | Document | Where to find it |
 |---|---|
-| **Synopsis PPT** | [SFIC Synopsis PPT final (PDF)](SFIC%20Synopsis%20PPT%20final.pdf) (also the **Synopsis PPT** card above) |
+| **Synopsis PPT** | [SFIC Synopsis PPT (PDF)](SFIC%20Synopsis%20PPT.pdf) (also the **Synopsis PPT** card above) |
 | **System architecture** | [SankShep.ai SFIC architecture file (PDF)](SankShep.ai%20SFIC%20architecture%20file.pdf) (also the **Architecture** card above); a text version is in [`architecture_slide.md`](architecture_slide.md) |
 | **Live prototype** | [sankshep-sfic.vercel.app](https://sankshep-sfic.vercel.app) (use **Continue with the demo account** on the sign-in page) |
 | Source code | This repository (the app is in [`main/`](main)) |
