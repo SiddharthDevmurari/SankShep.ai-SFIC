@@ -71,3 +71,6 @@ photos/*
 .playwright-mcp/
 .vercel
 .env*
+
+# Private notes for Claude (keep local)
+13-language-feature-guide-for claude.md
