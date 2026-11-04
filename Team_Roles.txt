@@ -31,9 +31,9 @@ Core Team & Ownership
 
 3. Harshit Vadher
    Role : Edge AI & Local LLM Inference
-   Owns : Privacy-first Private mode: on-device LLM via Ollama (any locally
-          installed model), real-time streamed output, hardware
-          compatibility check, and guided setup
+   Owns : Privacy-first Private mode: on-device LLM via Ollama (qwen2.5vl:7b),
+          real-time streamed output, hardware compatibility check, and
+          guided setup
 
 4. Vraj Patel
    Role : Multilingual NLP & Document Intelligence

@@ -114,7 +114,7 @@ Supporting deliverables: source code, setup README, synopsis PPT and system arch
 |---|---|---|---|
 | 1 | **Siddharth Devmurari** (Team Leader) | GenAI Systems & LLM Orchestration Lead | System architecture and project planning, end-to-end GenAI pipeline, multi-LLM orchestration (Groq, Gemini, OpenRouter) |
 | 2 | **Suhani Jain** | UI/UX Design Engineering & PWA Lead | Website UI/UX (Landing, Features, How It Works, About and Contact), design system and theme, responsive layouts, installable PWA |
-| 3 | **Harshit Vadher** | Edge AI & Local LLM Inference | Privacy-first Private mode: on-device LLM via Ollama (any locally installed model), real-time streamed output, hardware compatibility check, guided setup |
+| 3 | **Harshit Vadher** | Edge AI & Local LLM Inference | Privacy-first Private mode: on-device LLM via Ollama (qwen2.5vl:7b), real-time streamed output, hardware compatibility check, guided setup |
 | 4 | **Vraj Patel** | Multilingual NLP & Document Intelligence | NLP-based translation across 13 languages, document ingestion and OCR (PDF, Word, scanned images), PowerPoint (.pptx) export |
 | 5 | **Kalindi Purohit** | Frontend Architecture & Workspace Engineering | Core workspace UI: settings sidebar, live output canvas, side-by-side model comparison, Generate / Stop controls |
 | 6 | **Kalee Hindocha** | Backend Engineering & Data Security | Supabase database with row-level security, authentication (login and sign-up), protected routes, Admin panel, History and Analytics |
