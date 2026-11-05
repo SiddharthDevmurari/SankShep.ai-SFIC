@@ -18,6 +18,8 @@ A generative AI workspace that turns one circular, advisory, scheme guideline or
 <a href="https://youtu.be/8Hx-PaHQiq0"><img src="photos/buttons/demo-video.svg" width="400" alt="Demo Video (YouTube)" /></a>
 <a href="https://sankshep-sfic.vercel.app"><img src="photos/buttons/live-app.svg" width="400" alt="Live App" /></a>
 
+**🚀 Want to run it yourself? [Jump to Quick start →](#quick-start)**
+
 [![React](https://img.shields.io/badge/React-19-0f100f?logo=react&logoColor=d4ed64)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-0f100f?logo=typescript&logoColor=d4ed64)](https://www.typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-8-0f100f?logo=vite&logoColor=d4ed64)](https://vite.dev)
