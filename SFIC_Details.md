@@ -24,6 +24,7 @@ Everything about our Seva First Innovation Challenge entry in one place: the pro
 |---|---|
 | Live app | https://sankshep-sfic.vercel.app |
 | GitHub repo | https://github.com/SiddharthDevmurari/SankShep.ai-SFIC |
+| Demo video (YouTube) | https://youtu.be/8Hx-PaHQiq0 |
 | Synopsis PPT | `SFIC Synopsis PPT.pdf` in the repo root, linked from the README card |
 | System architecture | `SankShep.ai SFIC architecture file.pdf` in the repo root, linked from the README card (text version in `architecture_slide.md`) |
 | Demo login | demo@gmail.com / Demo@1234 (or "Continue with the demo account" on the sign-in page) |
