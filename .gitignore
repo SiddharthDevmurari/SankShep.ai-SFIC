@@ -74,3 +74,15 @@ photos/*
 
 # Private notes for Claude (keep local)
 13-language-feature-guide-for claude.md
+
+# YouTube upload notes (keep local)
+YouTube_Upload_Details.txt
+
+# Demo video recordings in the project folder (too big for GitHub)
+/*.mp4
+
+# YouTube thumbnail (keep local)
+YouTube_Thumbnail.png
+
+# WhatsApp group picture (keep local)
+SFIC_WhatsApp_Group_DP.png
