@@ -8,7 +8,7 @@
 
 A generative AI workspace that turns one circular, advisory, scheme guideline or report into plain summaries, advisories, news articles, slide decks, video scripts, social posts and translations into English and 12 Indian languages, all drafted in parallel and then refined in plain words. For documents that can't leave the office, **Private mode** does the whole job on your own computer.
 
-*Seva First Innovation Challenge (SFIC) · Track 2: Open Innovation · Official Team Code: TM003665*
+*Seva First Innovation Challenge (SFIC) 2026 · Track 2: Open Innovation · Problem Statement PS0001 · Official Team Code: TM003665*
 
 **Live: [sankshep-sfic.vercel.app](https://sankshep-sfic.vercel.app)**
 
@@ -35,10 +35,11 @@ A generative AI workspace that turns one circular, advisory, scheme guideline or
 
 | | |
 |---|---|
-| **Challenge** | Seva First Innovation Challenge (SFIC) |
+| **Challenge** | Seva First Innovation Challenge (SFIC) 2026 · SSIP 2.0, Education Department, Govt. of Gujarat |
 | **Track** | Track 2: Bring Your Problem Statement (Open Innovation) |
+| **Problem statement** | PS0001 · Sankshep.ai: Automated GenAI Platform for Multi-Format Public Content Transformation |
 | **Official Team Code** | TM003665 |
-| **Problem statement** | Turning Government and Public-Service Information into Citizen-Ready Communication, in Every Format and Language |
+| **Institution** | Vishwakarma Government Engineering College (VGEC), Ahmedabad, Gujarat |
 | **Domain** | Generative AI and NLP (LLMs), multilingual AI, on-device (edge) AI, web technologies, GovTech |
 
 **The context.** Government departments, health systems and social organisations produce a steady stream of important information: scheme guidelines, health advisories, circulars, policy documents, safety alerts and reports. It only creates value when it reaches the people it is meant for, in a form they can understand and act on. Today that last step is manual. The same circular is rewritten by hand into a summary for officials, a simple explanation for citizens, a social post, a meeting deck and a video script, often with translation on top. Small teams, district offices and NGOs rarely have communication staff, so information goes out late, in English only, or in official language many citizens can't follow.
@@ -147,7 +148,7 @@ Private mode works in Chrome, Edge and Firefox. Safari doesn't let secure websit
 | **Dynamic context routing for Refine** | Type a change under any draft ("make it shorter", "add the budget figure from the report") and only that draft is rewritten. A fast routing model first decides what the change needs: style, length, tone and formatting edits are sent with **the draft only**, so they stay small and keep the draft's facts as they are; requests for facts, missing detail or anything in the original are sent with **the draft and the source**, so the model can look it up instead of guessing. If routing fails or times out, the source is included, so accuracy never depends on it. |
 | **Consent-based key fallback** | If your own key fails (rejected, out of quota, rate-limited beyond a short wait, or the provider keeps erroring), nothing switches behind your back. The run pauses and a prompt shows the provider's exact error and asks: *"Would you like to generate this using Sankshep.ai's free API key instead?"* **Use Sankshep Key** re-runs through the shared keys; **Cancel** leaves the workspace idle and sends nothing else. |
 | **Stop mid-generation** | While drafting, Generate becomes **Stop generating** (also in the canvas header, so it works with the sidebar collapsed), and Refine becomes **Stop**. Stopping aborts the requests at once through an `AbortController`; drafts that already finished stay on the canvas, the rest are dropped, and a note says how many were kept. |
-| **Every kind of source** | PDF and DOCX are turned into text in the browser. Scanned PDFs (no text layer) have their first 10 pages read like images. Links are fetched and read as the page's text. |
+| **Every kind of source** | PDF and DOCX are turned into text in the browser. Scanned PDFs (no text layer) have their first 10 pages read like images. Links are fetched and read as the page's text. Files can be up to 30 MB. |
 | **Image reading** | Images and scanned pages are read by a Gemini or OpenRouter vision model, or by **on-device OCR** (Tesseract.js) if no vision model is available. In Private mode they are always read by on-device OCR. |
 | **Model comparison** | Run the same brief through up to **3 models** and read the drafts side by side, each with word counts and one-click copy. |
 | **Audience targeting** | The audience is who will read, watch or receive the final content (choosing HR/Sales means the drafts are written to be handed to HR and sales staff). Four presets, or describe your own and **save it to your account** for next time. |
@@ -155,7 +156,7 @@ Private mode works in Chrome, Edge and Firefox. Safari doesn't let secure websit
 | **History & Analytics** | Every draft is logged with its format, provider, model and word counts. Filter your history by format and see usage at a glance. |
 | **Install as an app** | Installable on Android, iPhone, iPad, Mac and Windows from the website itself (a PWA). The landing page shows **Download for Android** or **Download for iOS** on those devices. On phones and tablets, the three-line menu in the top navigation reaches every page. |
 | **Website in 13 languages** | The public pages (landing, features, how it works, about, contact, sign-in and legal) can be read in English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu (right to left), Kannada, Odia, Malayalam, Punjabi and Assamese, from the language menu in the top bar. English and Hindi are written by the team; the other eleven were machine-translated from the English with Gemini and are downloaded only when chosen. The workspace itself stays in English. |
-| **Accounts & admin** | Email sign-up with no verification step, a shared demo account, self-service account deletion, and an admin panel for all users and activity. The admin can **disable** an account (it keeps its data but is signed out everywhere and can't sign in; anyone trying is told it's disabled and to contact the admin), **enable** it again, or delete it. |
+| **Accounts & admin** | Email sign-up with no verification step: the address is checked for typos of common mail providers (like `gmal.com`) and for a domain that receives mail, and passwords need 8+ characters with an uppercase letter, a lowercase letter, a number and a special character. A shared demo account, self-service account deletion, and an admin panel for all users and activity. The admin can **disable** an account (it keeps its data but is signed out everywhere and can't sign in; anyone trying is told it's disabled and to contact the admin), **enable** it again, or delete it. |
 
 The public [`/features`](https://sankshep-sfic.vercel.app/features) page walks through the main features with interactive previews.
 
@@ -414,12 +415,16 @@ main/
 │   │   ├── activity.ts          # Activity logging and History/Analytics queries
 │   │   ├── exporters.ts         # Markdown, text and PowerPoint export
 │   │   ├── languages.ts         # The 13 languages: site language menu and translation targets
+│   │   ├── email.ts             # Sign-up email check: typos of common providers, domain takes mail
+│   │   ├── password.ts          # Password rules for new accounts
+│   │   ├── install.ts           # Installing the site as an app (PWA)
 │   │   └── supabase.ts          # Central Supabase client
 │   ├── i18n.tsx                 # Site language: loads a language's text only when it is picked
 │   ├── locales/<code>/          # The public pages in 11 more languages (bn, mr, te, ta, gu, ur, kn, or, ml, pa, as)
 │   ├── contexts/AuthContext.tsx # Session, sign-in/up, sign-out, account deletion
 │   ├── components/
 │   │   ├── ProtectedRoute.tsx   # Auth guard for /workspace/*
+│   │   ├── InstallApp.tsx       # "Download for Android / iOS" buttons and install steps
 │   │   ├── demo/                # Landing hero: animated workspace mockup, scripted pointer, step controls
 │   │   └── site/SiteChrome.tsx  # Shared site nav (with the mobile menu) and footer
 │   ├── pages/
@@ -427,6 +432,7 @@ main/
 │   │   ├── FeaturesPage.tsx
 │   │   ├── HowItWorksPage.tsx
 │   │   ├── AboutPage.tsx
+│   │   ├── ContactPage.tsx
 │   │   ├── LoginPage.tsx
 │   │   ├── WorkspacePage.tsx    # Workspace shell, capsule header and tabs
 │   │   └── legal/               # Privacy Policy and Terms
@@ -490,12 +496,21 @@ Supabase is configured by the two `VITE_SUPABASE_*` variables in step 3.
 
 ## Team
 
-**Team TM003665** · Seva First Innovation Challenge (SFIC)
+**Team TM003665** · Seva First Innovation Challenge (SFIC) 2026 · Vishwakarma Government Engineering College (VGEC), Ahmedabad
 
-Siddharth Devmurari · Suhani Jain · Harshit Vadher · Vraj Patel · Kalindi Purohit · Kalee Hindocha
+| Member | Role |
+|---|---|
+| **Siddharth Devmurari** (Team Leader) | GenAI Systems & LLM Orchestration Lead |
+| **Suhani Jain** | UI/UX Design Engineering & PWA Lead |
+| **Harshit Vadher** | Edge AI & Local LLM Inference |
+| **Vraj Patel** | Multilingual NLP & Document Intelligence |
+| **Kalindi Purohit** | Frontend Architecture & Workspace Engineering |
+| **Kalee Hindocha** | Backend Engineering & Data Security |
+
+**Mentor:** Khushali Mam, Department of Information Technology, VGEC
 
 ---
 
 <div align="center">
-<sub>Built for the Seva First Innovation Challenge (SFIC) · Official Team Code: TM003665 · <a href="main/src/pages/legal/TermsPage.tsx">Terms</a> · <a href="main/src/pages/legal/PrivacyPolicyPage.tsx">Privacy</a></sub>
+<sub>Built for the Seva First Innovation Challenge (SFIC) 2026 · Official Team Code: TM003665 · <a href="main/src/pages/legal/TermsPage.tsx">Terms</a> · <a href="main/src/pages/legal/PrivacyPolicyPage.tsx">Privacy</a></sub>
 </div>
