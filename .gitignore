@@ -86,3 +86,18 @@ YouTube_Thumbnail.png
 
 # WhatsApp group picture (keep local)
 SFIC_WhatsApp_Group_DP.png
+
+# Kept local only: not needed on GitHub
+# Unused old videos and screenshots (the landing demo only uses SFIC_Problem_Statement.txt)
+main/src/imports/*.mp4
+main/src/imports/*.png
+test/
+# Outdated export of SFIC_Details.md
+SFIC_Details.pdf
+# Private notes and personal contact details
+SFIC_Details.md
+Team_Roles.txt
+# Instructions for AI coding tools
+/CLAUDE.md
+main/CLAUDE.md
+main/AGENTS.md
