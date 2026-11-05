@@ -3,7 +3,7 @@ import type { LANDING_COPY } from '../../pages/landingCopy'
 const t: typeof LANDING_COPY.en = {
   hero: {
     challengeLine: 'SFIC · Seva First Innovation Challenge · Track 2: Open Innovation',
-    problemTitle: 'سرکاری معلومات کو ہر شہری کے قابل فهم مواصلات میں بدلنا، ہر فارمیٹ اور ہر زبان میں',
+    problemTitle: 'کثیر فارمیٹ عوامی مواد کی تبدیلی کے لیے خودکار GenAI پلیٹ فارم',
     teamCode: 'Official Team Code: TM003665',
     title: 'لمبی، بے ترتیب رپورٹوں کو شیئر کرنے کے لیے تیار مواد میں بدلیں۔',
     body: 'ریسرچ پیپرز، پالیسی بریفز، ویب لنکس، یا رفس نوٹس ڈراپ کریں۔ Sankshep فوری طور پر صاف ستھری سمری، ویڈیو سکرٹس، نیوز آرٹیکلز، اور سلائیڈ ڈیکس بناتا ہے، اور آپ کے ڈیٹا کو محفوظ اور پرائیویٹ رکھتا ہے۔',

@@ -3,7 +3,7 @@ import type { LANDING_COPY } from '../../pages/landingCopy'
 const t: typeof LANDING_COPY.en = {
   hero: {
     challengeLine: 'SFIC · Seva First Innovation Challenge · Track 2: Open Innovation',
-    problemTitle: 'ਸਰਕਾਰੀ ਜਾਣਕਾਰੀ ਨੂੰ ਹਰ ਨਾਗਰਿਕ ਤੱਕ, ਹਰ ਫਾਰਮੈਟ ਅਤੇ ਭਾਸ਼ਾ ਵਿੱਚ, ਸਮਝਣ ਲਾਇਕ ਰੂਪ ਵਿੱਚ ਪਹੁੰਚਾਉਣਾ',
+    problemTitle: 'ਬਹੁ-ਫਾਰਮੈਟ ਜਨਤਕ ਕੰਟੈਂਟ ਬਦਲਾਅ ਲਈ ਸਵੈਚਾਲਿਤ GenAI ਪਲੇਟਫਾਰਮ',
     teamCode: 'Official Team Code: TM003665',
     title: 'ਲੰਬੀਆਂ, ਉਲਝੀਆਂ ਰਿਪੋਰਟਾਂ ਨੂੰ ਸ਼ੇਅਰ ਕਰਨ ਲਾਇਕ ਕੰਟੈਂਟ ਵਿੱਚ ਬਦਲੋ।',
     body: 'ਰਿਸਰਚ ਪੇਪਰ, ਨੀਤੀ ਦਸਤਾਵੇਜ਼, ਵੈੱਬ ਲਿੰਕ ਜਾਂ ਕੱਚੇ ਨੋਟਸ ਪਾਓ। Sankshep ਤੁਰੰਤ ਸਾਫ਼-ਸੁਥਰੇ ਸਾਰੰਸ਼, ਵੀਡੀਓ ਸਕ੍ਰਿਪਟ, ਖ਼ਬਰਾਂ ਦੇ ਲੇਖ ਅਤੇ ਸਲਾਈਡ ਡੇਕ ਬਣਾ ਦਿੰਦਾ ਹੈ, ਅਤੇ ਤੁਹਾਡਾ ਡਾਟਾ ਸੁਰੱਖਿਅਤ ਅਤੇ ਨਿੱਜੀ ਰੱਖਦਾ ਹੈ।',

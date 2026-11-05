@@ -1,5 +1,5 @@
 Problem Statement Title
-Sankshep.ai: Turning Government and Public-Service Information into Citizen-Ready Communication, in Every Format and Language
+Sankshep.ai: Automated GenAI Platform for Multi-Format Public Content Transformation
 
 Challenge
 Seva First Innovation Challenge (SFIC) · Track 2: Bring Your Problem Statement (Open Innovation) · Official Team Code: TM003665

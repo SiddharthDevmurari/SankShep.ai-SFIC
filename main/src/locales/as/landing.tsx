@@ -3,7 +3,7 @@ import type { LANDING_COPY } from '../../pages/landingCopy'
 const t: typeof LANDING_COPY.en = {
   hero: {
     challengeLine: 'SFIC · Seva First Innovation Challenge · Track 2: Open Innovation',
-    problemTitle: 'চমকাৰী তথ্যসমূহক প্ৰতিজন নাগৰিকৰ উপযোগী যোগাযোগলৈ ৰূপান্তৰিত কৰা, প্ৰতিটো ফৰমেট আৰু ভাষাত',
+    problemTitle: 'বহু-ফৰমেট ৰাজহুৱা কনটেণ্ট ৰূপান্তৰৰ বাবে স্বয়ংক্ৰিয় GenAI প্লেটফৰ্ম',
     teamCode: 'Official Team Code: TM003665',
     title: 'দীঘলীয়া, আউল লগা প্ৰতিবেদনসমূহক শ্বেয়াৰ কৰিবলৈ সাজু কণ্টেণ্টলৈ সলনি কৰক।',
     body: 'গৱেষণা পত্ৰ, নীতিমূলক ব্ৰিফ, ৱেব লিংক, বা কেঁচা টোকা ড্ৰপ কৰক। Sankshep এ তৎক্ষণাৎ চাফ-চিকুণ সাৰাংশ, ভিডিঅ\' স্ক্ৰিপ্ট, বাতৰিৰ প্ৰবন্ধ, আৰু চ্লাইড ডেক তৈয়াৰ কৰি দিয়ে, লগতে আপোনাৰ ডাটা নিৰাপদ আৰু প্ৰাইভেট কৰি ৰাখে।',

@@ -5,7 +5,7 @@ import { defineCopy } from '../i18n'
 const en = {
   hero: {
     challengeLine: 'SFIC · Seva First Innovation Challenge · Track 2: Open Innovation',
-    problemTitle: 'Turning official information into citizen-ready communication, in every format and language',
+    problemTitle: 'Automated GenAI Platform for Multi-Format Public Content Transformation',
     teamCode: 'Official Team Code: TM003665',
     title: 'Turn long, messy reports into ready-to-share content.',
     body: 'Drop in research papers, policy briefs, web links, or rough notes. Sankshep instantly creates clean summaries, video scripts, news articles, and slide decks, keeping your data safe and private.',
@@ -97,7 +97,7 @@ const en = {
 const hi: typeof en = {
   hero: {
     challengeLine: 'SFIC · सेवा फ़र्स्ट इनोवेशन चैलेंज · ट्रैक 2: ओपन इनोवेशन',
-    problemTitle: 'सरकारी जानकारी को हर नागरिक तक, हर फ़ॉर्मेट और भाषा में, समझने लायक रूप में पहुँचाना',
+    problemTitle: 'बहु-फ़ॉर्मेट सार्वजनिक कंटेंट रूपांतरण के लिए स्वचालित GenAI प्लेटफ़ॉर्म',
     teamCode: 'आधिकारिक टीम कोड: TM003665',
     title: 'लंबी, उलझी रिपोर्टों को शेयर करने लायक कंटेंट में बदलें।',
     body: 'रिसर्च पेपर, नीति दस्तावेज़, वेब लिंक या कच्चे नोट्स डालें। Sankshep तुरंत साफ़-सुथरे सारांश, वीडियो स्क्रिप्ट, समाचार लेख और स्लाइड डेक बना देता है, और आपका डेटा सुरक्षित और निजी रखता है।',
