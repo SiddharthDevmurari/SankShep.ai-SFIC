@@ -12,6 +12,13 @@ const t: typeof LANDING_COPY.en = {
     noCard: 'ক্রেডিট কার্ডের প্রয়োজন নেই',
     privateMode: 'সম্পূর্ণরূপে আপনার ডিভাইসে Private mode',
   },
+  demo: {
+    eyebrow: 'ডেমো ভিডিও',
+    title: 'Sankshep-কে *কাজ করতে দেখুন।*',
+    body: 'সেবা ফার্স্ট ইনোভেশন চ্যালেঞ্জ (SFIC) 2026-এর জন্য ওয়ার্কস্পেসের আমাদের ওয়াকথ্রু (ইংরেজিতে)।',
+    open: 'YouTube-এ খুলুন',
+    frameTitle: 'Sankshep.ai ডেমো ভিডিও',
+  },
   security: {
     eyebrow: 'গোপনীয়তা সবার আগে',
     title: 'আপনার নথিগুলো কখনো *আপনার কম্পিউটার ছেড়ে যাবে না।*',

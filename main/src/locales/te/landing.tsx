@@ -12,6 +12,13 @@ const t: typeof LANDING_COPY.en = {
     noCard: 'క్రెడిట్ కార్డ్ అవసరం లేదు',
     privateMode: 'పూర్తిగా మీ పరికరంలోనే నడిచే Private mode',
   },
+  demo: {
+    eyebrow: 'డెమో వీడియో',
+    title: 'Sankshep *పని చేయడం చూడండి.*',
+    body: 'Seva First Innovation Challenge (SFIC) 2026 కోసం వర్క్‌స్పేస్ యొక్క మా వాక్‌త్రూ (ఇంగ్లీష్‌లో).',
+    open: 'YouTube లో తెరవండి',
+    frameTitle: 'Sankshep.ai డెమో వీడియో',
+  },
   security: {
     eyebrow: 'గోప్యతకే ప్రథమ పీఠం',
     title: 'మీ పత్రాలు ఎప్పటికీ *మీ కంప్యూటర్‌ను విడిచి వెళ్లనవసరం లేదు.*',

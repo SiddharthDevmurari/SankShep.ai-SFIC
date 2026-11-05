@@ -14,6 +14,13 @@ const en = {
     noCard: 'No credit card',
     privateMode: 'Fully on-device Private mode',
   },
+  demo: {
+    eyebrow: 'Demo video',
+    title: 'Watch Sankshep *at work.*',
+    body: 'Our Seva First Innovation Challenge (SFIC) 2026 walkthrough of the workspace.',
+    open: 'Open on YouTube',
+    frameTitle: 'Sankshep.ai demo video',
+  },
   security: {
     eyebrow: 'Privacy first',
     title: 'Your documents never have to *leave your computer.*',
@@ -98,6 +105,13 @@ const hi: typeof en = {
     seeHow: 'देखें यह कैसे काम करता है',
     noCard: 'क्रेडिट कार्ड की ज़रूरत नहीं',
     privateMode: 'Private mode, पूरी तरह आपके डिवाइस पर',
+  },
+  demo: {
+    eyebrow: 'डेमो वीडियो',
+    title: 'Sankshep को *काम करते देखें।*',
+    body: 'सेवा फ़र्स्ट इनोवेशन चैलेंज (SFIC) 2026 के लिए वर्कस्पेस का हमारा वॉकथ्रू (अंग्रेज़ी में)।',
+    open: 'YouTube पर खोलें',
+    frameTitle: 'Sankshep.ai डेमो वीडियो',
   },
   security: {
     eyebrow: 'गोपनीयता सबसे पहले',

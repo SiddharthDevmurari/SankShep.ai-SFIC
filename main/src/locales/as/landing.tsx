@@ -12,6 +12,13 @@ const t: typeof LANDING_COPY.en = {
     noCard: 'ক্ৰেডিট কাৰ্ডৰ প্ৰয়োজন নাই',
     privateMode: 'সম্পূৰ্ণভাৱে নিজৰ ডিভাইচত থকা Private mode',
   },
+  demo: {
+    eyebrow: 'ডেমো ভিডিঅ’',
+    title: 'Sankshep ক *কাম কৰা অৱস্থাত চাওক।*',
+    body: 'Seva First Innovation Challenge (SFIC) 2026 ৰ বাবে ৱৰ্কস্পেচৰ আমাৰ ৱাকথ্ৰু (ইংৰাজীত)।',
+    open: 'YouTube ত খোলক',
+    frameTitle: 'Sankshep.ai ডেমো ভিডিঅ’',
+  },
   security: {
     eyebrow: 'গোপনীয়তা সৰ্বপ্ৰথম',
     title: 'আপোনাৰ নথিপত্ৰসমূহ কেতিয়াও *আপোনাৰ কম্পিউটাৰৰ পৰা বাহিৰলৈ যাব নলগীয়া হয়।*',
